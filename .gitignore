@@ -28,3 +28,5 @@ Debug/*
 *.out
 *.app
 /Debug/
+
+*~
