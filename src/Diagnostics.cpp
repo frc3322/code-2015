@@ -12,6 +12,8 @@ pthread_t m_task;
 sem_t m_flushing;
 sem_t m_writing;
 int returnValue;
+unsigned int lastLinePrinted = 0;
+unsigned int lineNumber = 0;
 
 void* run(void* args);
 int abort(const char* message) {
@@ -30,6 +32,8 @@ int abort(const char* message) {
 int startLogging() {
 	m_buf = m_buf_a;
 	m_buf_len = 0;
+	lastLinePrinted = 0;
+	lineNumber = 0;
 
 	m_log = fopen("/diag.csv", "w");
 	if(!m_log) {
@@ -78,8 +82,6 @@ int flushToDisk() {
 }
 int bufferPrintf(const char* format,...)
 {
-	static unsigned int lastLinePrinted = 0;
-	static unsigned int lineNumber = 0;
 	sem_wait(&m_writing);
 	lineNumber++;
 	if (m_buf_len < DIAG_SIZE - DIAG_LINE_SIZE) {

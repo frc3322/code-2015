@@ -70,7 +70,7 @@ void Robot::RobotInit() {
  * You can use it to reset subsystems before shutting down.
  */
 void Robot::DisabledInit(){
-
+	flushToDisk();
 }
 
 void Robot::DisabledPeriodic() {
@@ -88,7 +88,8 @@ void Robot::AutonomousPeriodic() {
 	if(autonStartTime < 0.0) {
 		autonStartTime = Timer::GetFPGATimestamp();
 	}
-	//TODO: ramp down the speed
+	//TODO: code to detect gyroscope failure + fall-back mode (hard-coded constants)
+	//TODO: refactor into DriveForwardAtAngle command
 	double timeLeft = autonStartTime + 3.0 - Timer::GetFPGATimestamp();
 	if(timeLeft > 0.0) {
 		if(timeLeft < 1.0)
