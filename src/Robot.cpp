@@ -24,7 +24,7 @@ void Robot::startDiagnosticLogging() {
 	//starts logging and prints headers
 	startLogging();
 	///print header for log
-	bufferPrintf("Gyro,\n");
+	bufferPrintf("Gyro, Acc X, Acc Y\n");
 //	for(int i = 0; i < 15; i++)
 //		bufferPrintf("Channel %d current,", i);
 //	for(int i = 1; i <= 3; i++)
@@ -37,8 +37,9 @@ void Robot::logRow() {
 //	}
 //	bufferPrintf("%f,%f,%f,\n",analogInput1->GetVoltage(),analogInput2->GetVoltage(),analogInput3->GetVoltage());
 //
-	bufferPrintf("%f,\n",RobotMap::drivetraindriveGyro->GetAngle());
-	printf("%f   %f\n",RobotMap::drivetraindriveGyro->GetAngle(), RobotMap::drivetraindriveGyro->GetRate());
+	bufferPrintf("%f, %f, %f\n",RobotMap::drivetraindriveGyro->GetAngle(), acc->GetX(), acc->GetY());
+//	printf("%f   %f\n",RobotMap::drivetraindriveGyro->GetAngle(), RobotMap::drivetraindriveGyro->GetRate());
+	printf("Acc x: %f Acc y: %f", acc->GetX(), acc->GetY());
 }
 void Robot::RobotInit() {
 	RobotMap::init();
@@ -64,6 +65,7 @@ void Robot::RobotInit() {
 	joystick1 = new Joystick(0);
 	//TODO: add code to ensure gyro has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
+	acc = new BuiltInAccelerometer();
 	startDiagnosticLogging();
 }
 
@@ -94,6 +96,10 @@ void Robot::AutonomousPeriodic() {
 	//TODO: code to detect gyroscope failure + fall-back mode (hard-coded constants)
 	//TODO: refactor into DriveForwardAtAngle command
 	double timeLeft = autonStartTime + 3.0 - Timer::GetFPGATimestamp();
+	//TODO: have accelerometer values fetched in seperate thread
+//	if(abs(acc->GetX() > 1.5)) {
+//
+//	}
 	if(timeLeft > 0.0) {
 		if(timeLeft < 1.0)
 			RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(-timeLeft/2.0,0,-0.02*RobotMap::drivetraindriveGyro->GetAngle());
@@ -112,6 +118,7 @@ void Robot::TeleopInit() {
 	// these lines or comment it out.
 	if (autonomousCommand != NULL)
 		autonomousCommand->Cancel();
+	//TODO: put this in a reset method that is shared with autoninit
 	RobotMap::drivetraindriveGyro->Reset();
 }
 
