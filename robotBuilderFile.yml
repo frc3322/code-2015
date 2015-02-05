@@ -263,7 +263,17 @@ Children:
   Properties: {}
   Base: Subsystems
   Name: Subsystems
-- Children: []
+- Children:
+  - Children: []
+    Properties:
+      Number: !!robotbuilder.data.properties.ChoicesProperty
+        choices: ['0', '1', '2', '3', '4', '5']
+        default: 1
+        name: Number
+        validators: [Joystick]
+        value: '0'
+    Base: Joystick
+    Name: Joystick1
   Properties: {}
   Base: OI
   Name: Operator Interface
@@ -281,7 +291,7 @@ Children:
   Name: Commands
 Properties:
   Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\FRC
-      3322-01\workspace', extension: null, folder: true, name: Eclipse Workspace,
+      3322-04\workspace', extension: null, folder: true, name: Eclipse Workspace,
     validators: null, value: 'C:\Users\FRC 3322-01\workspace'}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}

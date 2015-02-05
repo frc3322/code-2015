@@ -79,6 +79,7 @@ int flushToDisk() {
 	sem_wait(&m_writing);
 	sem_post(&m_flushing);
 	sem_post(&m_writing);
+	return 0;
 }
 int bufferPrintf(const char* format,...)
 {
