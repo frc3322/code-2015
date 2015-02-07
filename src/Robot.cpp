@@ -63,7 +63,7 @@ void Robot::RobotInit() {
 	raiseOneTote = new RaiseOneTote();
 	raiseWings = new RaiseWings();
 	retractWings = new RetractWings();
-	rotateWings = new RotateWings();
+	rotateWings = new RotateWings(0);
 	driverStick = new Joystick(0);
 	techStick = new Joystick(1);
 	//TODO: add code to ensure gyroscope has initialized
@@ -98,14 +98,22 @@ void Robot::TeleopPeriodic() {
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(driverStick->GetX()*0.5, driverStick->GetY()*0.5,driverStick->GetRawAxis(4)*0.5);
 	printf("Teleop\n");
 	logRow();
-	if(techStick->GetButton(xbox.h::RBUMPER)){
+	//liftcode
+	if(techStick->GetRawButton(XBOX::LBUMPER)) {
 		lowerOneTote->Start();
 	}
-	if(techStick->GetRawButton(5)){
+	if(techStick->GetRawButton(XBOX::RBUMPER)) {
 		raiseOneTote->Start();
 	}
+	if(techStick->GetRawButton(XBOX::YBUTTON)) {
+		lift->speedController1->Set(0.2);
+		lift->speedController2->Set(0.2);
+		}
+	if(techStick->GetRawButton(XBOX::ABUTTON)) {
+		lift->speedController1->Set(-0.2);
+		lift->speedController2->Set(-0.2);
+	}
 }
-
 void Robot::TestPeriodic() {
 	lw->Run();
 }
