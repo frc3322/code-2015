@@ -24,6 +24,8 @@ SpeedController* RobotMap::drivetrainrearLeft = NULL;
 SpeedController* RobotMap::drivetrainfrontRight = NULL;
 RobotDrive* RobotMap::drivetrainrobotDrive = NULL;
 Gyro* RobotMap::drivetraindriveGyro = NULL;
+AnalogInput* RobotMap::drivetrainleftSonar = NULL;
+AnalogInput* RobotMap::drivetrainrightSonar = NULL;
 SpeedController* RobotMap::liftSpeedController1 = NULL;
 SpeedController* RobotMap::liftSpeedController2 = NULL;
 RobotDrive* RobotMap::liftliftDrive = NULL;
@@ -73,6 +75,12 @@ void RobotMap::init() {
 	drivetraindriveGyro = new Gyro(1);
 	lw->AddSensor("Drivetrain", "driveGyro", drivetraindriveGyro);
 	drivetraindriveGyro->SetSensitivity(0.007);
+	drivetrainleftSonar = new AnalogInput(0);
+	lw->AddSensor("Drivetrain", "leftSonar", drivetrainleftSonar);
+	
+	drivetrainrightSonar = new AnalogInput(3);
+	lw->AddSensor("Drivetrain", "rightSonar", drivetrainrightSonar);
+	
 	liftSpeedController1 = new Talon(4);
 	lw->AddActuator("Lift", "Speed Controller 1", (Talon*) liftSpeedController1);
 	

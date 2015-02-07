@@ -9,28 +9,25 @@
 // it from being updated in the future.
 
 
-#ifndef ROTATEWINGS_H
-#define ROTATEWINGS_H
+#ifndef AUTONCALIBRATION_H
+#define AUTONCALIBRATION_H
 
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
-
-/**
- *
- *
- * @author ExampleAuthor
- */
-class RotateWings: public Command {
+#include <stdio.h>
+#define NUM_SAMPLES 20
+class AutonCalibration: public Command {
 public:
-	RotateWings();
+	AutonCalibration();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
-	bool hasSetAngle;
-	float setAngle;
+	float leftSum;
+	float rightSum;
+	unsigned int currentSample;
 };
 
 #endif
