@@ -75,12 +75,16 @@ void Robot::RobotInit() {
 }
 void Robot::DisabledInit(){
 	flushToDisk();
+
 }
 void Robot::DisabledPeriodic() {
 	Scheduler::GetInstance()->Run();
 	if(RobotMap::liftlimitSwitch->Get()) {
-		//autonCalibration->Run();
+		printf("Start Auton Calibration\n");
+		autonCalibration->SetRunWhenDisabled(true);
+		autonCalibration->Start();
 	}
+
 }
 void Robot::AutonomousInit() {
 	if (autonomousCommand != NULL)
