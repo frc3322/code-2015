@@ -21,17 +21,21 @@ RaiseOneTote::RaiseOneTote() {
 
 // Called just before this Command runs the first time
 void RaiseOneTote::Initialize() {
+	startTime = Timer::GetFPGATimestamp();
+	durationTime = 2;
 	
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RaiseOneTote::Execute() {
+	Robot::lift->speedController1->Set(.2);
+	Robot::lift->speedController2->Set(.2);
 	
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool RaiseOneTote::IsFinished() {
-	return false;
+	return Timer::GetFPGATimestamp()>startTime+durationTime;
 }
 
 // Called once after isFinished returns true

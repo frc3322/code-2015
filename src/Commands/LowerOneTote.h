@@ -22,6 +22,8 @@
  * @author ExampleAuthor
  */
 class LowerOneTote: public Command {
+	double startTime;
+	double durationTime;
 public:
 	LowerOneTote();
 	virtual void Initialize();
@@ -29,6 +31,7 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+
 };
 
 #endif
