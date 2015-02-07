@@ -22,6 +22,8 @@
  * @author ExampleAuthor
  */
 class RaiseOneTote: public Command {
+	double startTime;
+	double durationTime;
 public:
 	RaiseOneTote();
 	virtual void Initialize();
