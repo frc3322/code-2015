@@ -18,6 +18,8 @@
 #include "Commands/BackupToAutonZone.h"
 #include "Commands/DriveForward.h"
 #include "Commands/GatherCans.h"
+#include "Commands/LowerOneTote.h"
+#include "Commands/RaiseOneTote.h"
 #include "Commands/RaiseWings.h"
 #include "Commands/RotateWings.h"
 
@@ -33,6 +35,10 @@ OI::OI() {
      
 
         // SmartDashboard Buttons
+	SmartDashboard::PutData("LowerOneTote", new LowerOneTote());
+
+	SmartDashboard::PutData("RaiseOneTote", new RaiseOneTote());
+
 	SmartDashboard::PutData("Autonomous Command", new AutonomousCommand());
 
 	SmartDashboard::PutData("DriveForward", new DriveForward());
