@@ -98,7 +98,7 @@ void Robot::TeleopPeriodic() {
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(driverStick->GetX()*0.5, driverStick->GetY()*0.5,driverStick->GetRawAxis(4)*0.5);
 	printf("Teleop\n");
 	logRow();
-	if(techStick->GetRawButton(5)){
+	if(techStick->GetButton(xbox.h::RBUMPER)){
 		lowerOneTote->Start();
 	}
 	if(techStick->GetRawButton(5)){
