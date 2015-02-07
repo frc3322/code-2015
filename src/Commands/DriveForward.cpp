@@ -22,6 +22,7 @@ bool DriveForward::IsFinished() {
 }
 void DriveForward::End() {
 	Robot::drivetrain->DriveOnHeading(0.0);
+	puts("drive forward ended");
 }
 void DriveForward::Interrupted() {
 }

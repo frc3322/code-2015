@@ -51,7 +51,7 @@ void AutonCalibration::End() {
 	if(!saveFile) {
 		puts("error: could not open calibration save file");
 	} else {
-		fprintf(saveFile,"left %f\nright %f\n", leftSum/(float)NUM_SAMPLES, rightSum/(float)NUM_SAMPLES);
+		fprintf(saveFile,"%f %f", leftSum/(float)NUM_SAMPLES, rightSum/(float)NUM_SAMPLES);
 		fflush(saveFile);
 		fclose(saveFile);
 		puts("wrote file");

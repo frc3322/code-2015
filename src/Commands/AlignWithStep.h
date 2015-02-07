@@ -29,6 +29,9 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	bool finished;
+	float rightDistance;
+	float leftDistance;
 };
 
 #endif
