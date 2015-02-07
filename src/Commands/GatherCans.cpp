@@ -7,6 +7,6 @@
 GatherCans::GatherCans() {
 	AddSequential(new DriveForward());
 	AddSequential(new AlignWithStep());
-	AddSequential(new RotateWings());
+	AddSequential(new RotateWings(90.0));	//TODO: figure out what angle to use
 	AddSequential(new BackupToAutonZone());
 }

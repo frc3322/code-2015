@@ -23,12 +23,14 @@
  */
 class RotateWings: public Command {
 public:
-	RotateWings();
+	RotateWings(float angle);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	bool hasSetAngle;
+	float setAngle;
 };
 
 #endif
