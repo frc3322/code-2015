@@ -9,12 +9,14 @@ DriveForward::DriveForward() {
 }
 void DriveForward::Initialize() {
 	Robot::drivetrain->ResetHeading();
+	startTime = Timer::GetFPGATimestamp();
+	timeOut = 3.0;
 }
 void DriveForward::Execute() {
-	Robot::drivetrain->DriveOnHeading(0.3);
+	Robot::drivetrain->DriveOnHeading(-0.3);
 }
 bool DriveForward::IsFinished() {
-	return 	Robot::stepDetectorator->IsAtStep();
+	return 	Robot::stepDetectorator->IsAtStep() || Timer::GetFPGATimestamp() > startTime + timeOut;
 }
 void DriveForward::End() {
 	Robot::drivetrain->DriveOnHeading(0.0);
