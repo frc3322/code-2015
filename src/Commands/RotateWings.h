@@ -23,7 +23,7 @@
  */
 class RotateWings: public Command {
 public:
-	RotateWings(float angle);
+	RotateWings();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

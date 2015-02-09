@@ -22,8 +22,9 @@
  * @author ExampleAuthor
  */
 class LowerOneTote: public Command {
-	double startTime;
-	double durationTime;
+	double startNumber;
+	double durationNumber;
+	double currentNumber;
 public:
 	LowerOneTote();
 	virtual void Initialize();

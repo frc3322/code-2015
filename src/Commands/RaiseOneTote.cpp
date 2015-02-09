@@ -21,8 +21,8 @@ RaiseOneTote::RaiseOneTote() {
 
 // Called just before this Command runs the first time
 void RaiseOneTote::Initialize() {
-	startTime = Timer::GetFPGATimestamp();
-	durationTime = 2;
+	startNumber = 	Robot::lift->encoder->GetDistance();;
+	durationNumber = 200;
 	
 }
 

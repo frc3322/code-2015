@@ -21,8 +21,8 @@ LowerOneTote::LowerOneTote() {
 
 // Called just before this Command runs the first time
 void LowerOneTote::Initialize() {
-	startTime = Timer::GetFPGATimestamp();
-	durationTime = 2;
+	startNumber = 	Robot::lift->encoder->GetDistance();;
+	durationNumber = 200;
 
 }
 
@@ -34,7 +34,8 @@ void LowerOneTote::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool LowerOneTote::IsFinished() {
-	return Timer::GetFPGATimestamp()>startTime+durationTime;
+	currentNumber = Robot::lift->encoder->GetDistance();
+	return currentNumber - durationNumber == startNumber;
 }
 
 // Called once after isFinished returns true

@@ -63,7 +63,7 @@ void Robot::RobotInit() {
 	raiseOneTote = new RaiseOneTote();
 	raiseWings = new RaiseWings();
 	retractWings = new RetractWings();
-	rotateWings = new RotateWings(0);
+	rotateWings = new RotateWings();
 	driverStick = new Joystick(0);
 	techStick = new Joystick(1);
 	//TODO: add code to ensure gyroscope has initialized
