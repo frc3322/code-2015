@@ -40,10 +40,11 @@ void AlignWithStep::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void AlignWithStep::Execute() {
 	puts("align with step execute");
-	float error = Robot::drivetrain->rightSonar->GetVoltage()/0.0098 - rightDistance;
-	float direction = error > 0 ? -60.0 : 60.0;
+	float rightError = Robot::drivetrain->rightSonar->GetVoltage()/0.0098 - rightDistance;
+	float leftError = Robot::drivetrain->leftSonar->GetVoltage()/0.0098 - leftDistance;
+	float direction = rightError > leftError ? -60.0 : 60.0;
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(-0.5,direction,0);
-	finished = abs(error) < 1.0;
+	finished = abs(rightError + leftError) < 1.0;
 }
 
 // Make this return true when this Command no longer needs to run execute()
