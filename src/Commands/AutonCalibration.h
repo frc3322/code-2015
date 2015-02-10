@@ -9,29 +9,25 @@
 // it from being updated in the future.
 
 
-#ifndef ALIGNWITHSTEP_H
-#define ALIGNWITHSTEP_H
+#ifndef AUTONCALIBRATION_H
+#define AUTONCALIBRATION_H
 
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
-
-/**
- *
- *
- * @author ExampleAuthor
- */
-class AlignWithStep: public Command {
+#include <stdio.h>
+#define NUM_SAMPLES 20
+class AutonCalibration: public Command {
 public:
-	AlignWithStep();
+	AutonCalibration();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
-	bool finished;
-	float rightDistance;
-	float leftDistance;
+	float leftSum;
+	float rightSum;
+	unsigned int currentSample;
 };
 
 #endif

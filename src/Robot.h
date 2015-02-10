@@ -37,7 +37,8 @@
 
 class Robot : public IterativeRobot {
 public:
-	Command* autonomousCommand;
+	Command *autonomousCommand;
+	Command *autonCalibration;
 	Command* alignWithStep;
 	Command* backupToAutonZone;
 	Command* driveForward;
