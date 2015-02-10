@@ -115,7 +115,11 @@ void Robot::TeleopPeriodic() {
 		lift->speedController2->Set(-0.2);
 	}
 	if(techStick->GetRawButton(XBOX::XBUTTON)) {
-		eagleWings->leftWinch->Set(.2);
+		eagleWings->leftWinch->Set(.5);
+		printf("winching");
+	}
+	else{
+		eagleWings->leftWinch->Set(0);
 	}
 }
 void Robot::TestPeriodic() {

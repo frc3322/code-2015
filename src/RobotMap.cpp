@@ -40,13 +40,13 @@ void RobotMap::init() {
 	eagleWingsLeftServo = new Servo(6);
 	lw->AddActuator("EagleWings", "LeftServo", eagleWingsLeftServo);
 	
-	eagleWingsRightServo = new Servo(7);
+	eagleWingsRightServo = new Servo(9);
 	lw->AddActuator("EagleWings", "RightServo", eagleWingsRightServo);
 	
 	eagleWingsRightWinch = new Talon(8);
 	lw->AddActuator("EagleWings", "RightWinch", (Talon*) eagleWingsRightWinch);
 	
-	eagleWingsLeftWinch = new Talon(9);
+	eagleWingsLeftWinch = new Talon(7);
 	lw->AddActuator("EagleWings", "LeftWinch", (Talon*) eagleWingsLeftWinch);
 	
 	drivetrainrearRight = new Talon(2);
