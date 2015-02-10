@@ -97,6 +97,7 @@ void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(driverStick->GetX()*0.5, driverStick->GetY()*0.5,driverStick->GetRawAxis(4)*0.5);
 	printf("Teleop\n");
+	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
 	logRow();
 	//liftcode
 	if(techStick->GetRawButton(XBOX::LBUMPER)) {
@@ -112,6 +113,9 @@ void Robot::TeleopPeriodic() {
 	if(techStick->GetRawButton(XBOX::ABUTTON)) {
 		lift->speedController1->Set(-0.2);
 		lift->speedController2->Set(-0.2);
+	}
+	if(techStick->GetRawButton(XBOX::XBUTTON)) {
+		eagleWings->leftWinch->Set(.2);
 	}
 }
 void Robot::TestPeriodic() {

@@ -21,21 +21,34 @@ RaiseOneTote::RaiseOneTote() {
 
 // Called just before this Command runs the first time
 void RaiseOneTote::Initialize() {
-	startNumber = 	Robot::lift->encoder->GetDistance();;
-	durationNumber = 200;
-	
+	durationNumber = 400;
+	limitSwitchTripped = false;
+	Robot::lift->encoder->Reset();
+
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RaiseOneTote::Execute() {
 	Robot::lift->speedController1->Set(.2);
 	Robot::lift->speedController2->Set(.2);
-	
+	printf("encoder! %f", fabs(Robot::lift->encoder->GetDistance()));
+	if(!limitSwitchTripped) {
+	limitSwitchTripped = Robot::lift->limitSwitch->Get();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool RaiseOneTote::IsFinished() {
-	return Timer::GetFPGATimestamp()>startTime+durationTime;
+	bool done = false;
+	if(Robot::lift->limitSwitch->Get()) {
+		startNumber = 	Robot::lift->encoder->GetDistance();
+		printf("start number %f", startNumber);
+	}
+	if(limitSwitchTripped){
+	printf("current Number %f", currentNumber);
+	currentNumber = Robot::lift->encoder->GetDistance();
+	done =  currentNumber+durationNumber <= startNumber;
+	}
 }
 
 // Called once after isFinished returns true

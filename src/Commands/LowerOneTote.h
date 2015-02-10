@@ -25,6 +25,8 @@ class LowerOneTote: public Command {
 	double startNumber;
 	double durationNumber;
 	double currentNumber;
+	bool limitSwitchTripped;
+
 public:
 	LowerOneTote();
 	virtual void Initialize();
