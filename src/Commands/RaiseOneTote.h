@@ -25,6 +25,7 @@ class RaiseOneTote: public Command {
 	double startNumber;
 	double durationNumber;
 	double currentNumber;
+	double startValue;
 	bool limitSwitchTripped;
 public:
 	RaiseOneTote();
