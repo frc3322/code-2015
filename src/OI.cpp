@@ -41,7 +41,7 @@ OI::OI() {
 
 	SmartDashboard::PutData("DriveForward", new DriveForward());
 
-	SmartDashboard::PutData("RotateWings", new RotateWings());
+	SmartDashboard::PutData("RotateWings", new RotateWings(RotateWings::FORWARD));
 
 	SmartDashboard::PutData("AlignWithStep", new AlignWithStep());
 
