@@ -21,22 +21,15 @@ LowerOneTote::LowerOneTote() {
 
 // Called just before this Command runs the first time
 void LowerOneTote::Initialize() {
-<<<<<<< .merge_file_a01532
-	durationNumber = 400;
 	Robot::lift->encoder->Reset();
 	limitSwitchTripped = false;
-=======
 	startNumber = 	Robot::lift->encoder->GetDistance();;
 	durationNumber = 200;
-
->>>>>>> .merge_file_a07580
 }
 
 // Called repeatedly when this Command is scheduled to run
 void LowerOneTote::Execute() {
 	Robot::lift->speedController1->Set(-.2);
-<<<<<<< .merge_file_a01532
-	printf("encoder! %f", Robot::lift->encoder->GetDistance());
 	Robot::lift->speedController2->Set(-.2);
 	if(!limitSwitchTripped) {
 	limitSwitchTripped = Robot::lift->limitSwitch->Get();
@@ -44,14 +37,10 @@ void LowerOneTote::Execute() {
 	if(limitSwitchTripped){
 		printf("limitSwitch tripped!");
 	}
-=======
-	Robot::lift->speedController2->Set(-.2);
->>>>>>> .merge_file_a07580
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool LowerOneTote::IsFinished() {
-<<<<<<< .merge_file_a01532
 	bool done = false;
 	if(Robot::lift->limitSwitch->Get()) {
 		startNumber = 	Robot::lift->encoder->GetDistance();
@@ -63,10 +52,6 @@ bool LowerOneTote::IsFinished() {
 	done =  currentNumber-durationNumber >= startNumber;
 	}
 	return done;
-=======
-	currentNumber = Robot::lift->encoder->GetDistance();
-	return currentNumber - durationNumber == startNumber;
->>>>>>> .merge_file_a07580
 }
 
 // Called once after isFinished returns true

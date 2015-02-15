@@ -23,7 +23,7 @@
  */
 class RotateWings: public Command {
 public:
-	RotateWings();
+	RotateWings(bool direction);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
@@ -31,6 +31,11 @@ public:
 	virtual void Interrupted();
 	bool hasSetAngle;
 	float setAngle;
+	const static bool FORWARD = false;
+	const static bool BACKWARD = true;
+	float direction;
+	float durationTime;
+
 };
 
 #endif
