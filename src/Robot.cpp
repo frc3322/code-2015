@@ -109,26 +109,14 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
-	printf("Teleop\n");
-	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
+//	printf("Teleop\n");
+//	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
+//	printf("Get x%f",driverStick->GetX() * 0.5);
+//	printf("Get y%f",driverStick->GetY()*0.5 );
+//	printf("Get rotations! %f",driverStick->GetRawAxis(4)*0.5);
 	//logRow();
 	//liftcode
-	if(techStick->GetRawButton(XBOX::LBUMPER)) {
-		lowerOneTote->Start();
-	}
-	if(techStick->GetRawButton(XBOX::RBUMPER)) {
-		raiseOneTote->Start();
-	}
-	if(techStick->GetRawAxis(RIGHT_TRIGGER) > .5) {
-		raiseLift->Start();
-	}
-	else if(techStick->GetRawAxis(LEFT_TRIGGER) > .5) {
-		lowerLift->Start();
-	}
-	else{
-		raiseLift->Cancel();
-		lowerLift->Cancel();
-	}
+
 	//Auton testing
 //	if(techStick->GetRawButton(XBOX::XBUTTON)) {
 //		eagleWings->leftWinch->Set(.5);
@@ -137,9 +125,9 @@ void Robot::TeleopPeriodic() {
 //	else{
 //		eagleWings->leftWinch->Set(0);
 //	}
-	if(lift->limitSwitch->Get()){
-		printf("limitswitch");
-	}
+//	if(lift->limitSwitch->Get()){
+//		printf("limitswitch");
+//	}
 }
 void Robot::TestPeriodic() {
 	lw->Run();

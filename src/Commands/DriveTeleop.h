@@ -15,6 +15,8 @@
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
+#include "../RobotMap.h"
+#include "../Subsystems/Drivetrain.h"
 
 /**
  *
@@ -29,6 +31,7 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	Joystick* driverStick;
 };
 
 #endif

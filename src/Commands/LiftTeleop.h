@@ -29,6 +29,14 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	Joystick* techStick;
+	Command* lowerOneTote;
+	Command* raiseOneTote;
+	Command* raiseLift;
+	Command* lowerLift;
+	Command* stopLift;
+	const static int LEFT_TRIGGER = 2;
+	const static int RIGHT_TRIGGER = 3;
 };
 
 #endif
