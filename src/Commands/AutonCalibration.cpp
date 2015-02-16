@@ -37,7 +37,6 @@ void AutonCalibration::Execute() {
 	rightSum += Robot::drivetrain->rightSonar->GetVoltage()/0.0098;
 	currentSample++;
 }
-
 // Make this return true when this Command no longer needs to run execute()
 bool AutonCalibration::IsFinished() {
 	return currentSample >= 20;//NUM_SAMPLES;
