@@ -10,5 +10,5 @@ GatherCans::GatherCans() {
 //	AddSequential(new AlignWithStep());
 	AddSequential(new RotateWings(.2));
 	AddSequential(new BackupToAutonZone());
-	AddSequential(new RotateWings(1));
+	AddSequential(new RotateWings(-.2));
 }
