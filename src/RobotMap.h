@@ -37,6 +37,8 @@ public:
 	static RobotDrive* liftliftDrive;
 	static Encoder* liftencoder;
 	static DigitalInput* liftlimitSwitch;
+	static DoubleSolenoid* liftgearboxShifter;
+	static DoubleSolenoid* liftpusher;
 	static AnalogInput* stepDetectoratorsonar;
 	static Compressor* compresoratororcompressor;
 
