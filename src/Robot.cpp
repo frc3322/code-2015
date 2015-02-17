@@ -115,7 +115,7 @@ void Robot::TeleopPeriodic() {
 	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
 	//logRow();
 	//liftcode
-	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetY()*0.5,Robot::driverStick->GetRawAxis(4)*0.5);
+	//RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetY()*0.5,Robot::driverStick->GetRawAxis(4)*0.5);
 	if(techStick->GetRawButton(XBOX::LBUMPER)) {
 		lowerOneTote->Start();
 	}
@@ -131,6 +131,15 @@ void Robot::TeleopPeriodic() {
 	else{
 		raiseLift->Cancel();
 		lowerLift->Cancel();
+	}
+	if(techStick->GetRawButton(XBOX::XBUTTON)){
+		Robot::drivetrain->DriveOnHeading(0.2);
+	}
+	else if(techStick->GetRawButton(XBOX::BBUTTON)){
+		Robot::drivetrain->DriveOnHeading(-0.2);
+	}
+	else{
+		Robot::drivetrain->DriveOnHeading(0);
 	}
 	//Auton testing
 //	if(techStick->GetRawButton(XBOX::XBUTTON)) {

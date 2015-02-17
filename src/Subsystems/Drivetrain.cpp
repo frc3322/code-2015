@@ -36,7 +36,7 @@ void Drivetrain::ResetHeading() {
 }
 double Drivetrain::CorrectionAngle() {
 	//TODO: code to detect gyroscope failure + fall-back mode (hard-coded constants)
-	return -0.02 * driveGyro->GetAngle();
+	return -0.04 * driveGyro->GetAngle();
 }
 void Drivetrain::DriveOnHeading(double velocity) {
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle());
