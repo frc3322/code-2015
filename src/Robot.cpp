@@ -150,6 +150,15 @@ void Robot::TeleopPeriodic() {
 		eagleWings->wingRotater->Set(0);
 		printf("stopping");
 	}
+	if(techStick->GetRawButton(XBOX::YBUTTON)){
+		eagleWings->rightWinch->Set(.2);
+		eagleWings->leftWinch->Set(.2);
+	}
+	else{
+		eagleWings->leftWinch->Set(0);
+		eagleWings->rightWinch->Set(0);
+	}
+
 }
 void Robot::TestPeriodic() {
 	lw->Run();
