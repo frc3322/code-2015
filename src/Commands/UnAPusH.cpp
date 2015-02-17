@@ -25,7 +25,7 @@ void UnAPusH::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void UnAPusH::Execute() {
-	//Robot::lift->pusher->Set(DoubleSolenoid::kForward);
+	Robot::lift->pusher->Set(DoubleSolenoid::kForward);
 }
 
 // Make this return true when this Command no longer needs to run execute()

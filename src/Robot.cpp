@@ -69,8 +69,8 @@ void Robot::RobotInit() {
 	raiseOneTote = new RaiseOneTote();
 	raiseWings = new RaiseWings();
 	retractWings = new RetractWings();
-	rotateWingsForward = new RotateWings(.2);
-	rotateWingsBackward = new RotateWings(-.2);
+	rotateWingsForward = new RotateWings(.2,.5);
+	rotateWingsBackward = new RotateWings(-.2,.5);
 	driverStick = new Joystick(0);
 	techStick = new Joystick(1);
 	raiseLift = new RunLift(0.5);
@@ -116,16 +116,16 @@ void Robot::TeleopPeriodic() {
 	//logRow();
 	//liftcode
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetY()*0.5,Robot::driverStick->GetRawAxis(4)*0.5);
-	if(techStick->GetRawButton(XBOX::LBUMPER)) {
+	if(driverStick->GetRawButton(XBOX::LBUMPER) || techStick->GetRawButton(XBOX::LBUMPER)) {
 		lowerOneTote->Start();
 	}
-	if(techStick->GetRawButton(XBOX::RBUMPER)) {
+	if(driverStick->GetRawButton(XBOX::RBUMPER) || techStick->GetRawButton(XBOX::RBUMPER)) {
 		raiseOneTote->Start();
 	}
-	if(techStick->GetRawAxis(RIGHT_TRIGGER) > .5) {
+	if(driverStick->GetRawAxis(RIGHT_TRIGGER) > .5 || techStick->GetRawAxis(RIGHT_TRIGGER) > .5) {
 		raiseLift->Start();
 	}
-	else if(techStick->GetRawAxis(LEFT_TRIGGER) > .5) {
+	else if(driverStick->GetRawAxis(LEFT_TRIGGER) > .5 || techStick->GetRawAxis(LEFT_TRIGGER) > .5) {
 		lowerLift->Start();
 	}
 	else{
@@ -133,19 +133,19 @@ void Robot::TeleopPeriodic() {
 		lowerLift->Cancel();
 	}
 
-	if(techStick->GetRawButton(XBOX::ABUTTON)){
+	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON)){
 		eagleWings->wingRotater->Set(.2);
 	}
 	else{
 		eagleWings->wingRotater->Set(0);
 	}
-	if(techStick->GetRawButton(XBOX::XBUTTON)){
+	if(driverStick->GetRawButton(XBOX::XBUTTON) || techStick->GetRawButton(XBOX::XBUTTON)){
 		eagleWings->leftWinch->Set(.2);
 	}
 	else{
 		eagleWings->leftWinch->Set(0);
 	}
-	if(techStick->GetRawButton(XBOX::BBUTTON)){
+	if(driverStick->GetRawButton(XBOX::BBUTTON) || techStick->GetRawButton(XBOX::BBUTTON)){
 		eagleWings->rightWinch->Set(.2);
 	}
 	else{

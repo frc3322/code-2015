@@ -9,8 +9,8 @@
 // it from being updated in the future.
 
 
-#ifndef ROTATEWINGS_H
-#define ROTATEWINGS_H
+#ifndef AUTONJERKY_H
+#define AUTONJERKY_H
 
 
 #include "Commands/Subsystem.h"
@@ -21,20 +21,16 @@
  *
  * @author ExampleAuthor
  */
-class RotateWings: public Command {
+class AutonJerky: public Command {
 public:
-	RotateWings(float direction, float time);
+	AutonJerky();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
-	bool hasSetAngle;
-	float setAngle;
-	float direction;
-	float durationTime;
 	float startTime;
-	float time;
+	float durationTime;
 };
 
 #endif
