@@ -41,8 +41,6 @@ OI::OI() {
 
 	SmartDashboard::PutData("DriveForward", new DriveForward());
 
-//	SmartDashboard::PutData("RotateWings", new RotateWings());
-
 	SmartDashboard::PutData("AlignWithStep", new AlignWithStep());
 
 	SmartDashboard::PutData("BackupToAutonZone", new BackupToAutonZone());
@@ -50,8 +48,6 @@ OI::OI() {
 	SmartDashboard::PutData("GatherCans", new GatherCans());
 
 	SmartDashboard::PutData("RetractWings", new RetractWings());
-
-//	SmartDashboard::PutData("RunLift", new RunLift());
 
 	SmartDashboard::PutData("DriveTeleop", new DriveTeleop());
 
