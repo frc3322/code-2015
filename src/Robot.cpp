@@ -132,42 +132,25 @@ void Robot::TeleopPeriodic() {
 		raiseLift->Cancel();
 		lowerLift->Cancel();
 	}
-	if(techStick->GetRawButton(XBOX::XBUTTON)){
-		Robot::drivetrain->DriveOnHeading(0.2);
-	}
-	else if(techStick->GetRawButton(XBOX::BBUTTON)){
-		Robot::drivetrain->DriveOnHeading(-0.2);
-	}
-	else{
-		Robot::drivetrain->DriveOnHeading(0);
-	}
-	//Auton testing
-//	if(techStick->GetRawButton(XBOX::XBUTTON)) {
-//		eagleWings->leftWinch->Set(.5);
-//		printf("winching");
-//	}
-//	else{
-//		eagleWings->leftWinch->Set(0);
-//	}
-	if(lift->limitSwitch->Get()){
-		printf("limitswitch");
-	}
+
 	if(techStick->GetRawButton(XBOX::ABUTTON)){
 		eagleWings->wingRotater->Set(.2);
 	}
 	else{
 		eagleWings->wingRotater->Set(0);
-		printf("stopping");
 	}
-	if(techStick->GetRawButton(XBOX::YBUTTON)){
-		eagleWings->rightWinch->Set(.2);
+	if(techStick->GetRawButton(XBOX::XBUTTON)){
 		eagleWings->leftWinch->Set(.2);
 	}
 	else{
 		eagleWings->leftWinch->Set(0);
+	}
+	if(techStick->GetRawButton(XBOX::BBUTTON)){
+		eagleWings->rightWinch->Set(.2);
+	}
+	else{
 		eagleWings->rightWinch->Set(0);
 	}
-
 }
 void Robot::TestPeriodic() {
 	lw->Run();
