@@ -115,7 +115,7 @@ void Robot::TeleopPeriodic() {
 	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
 	//logRow();
 	//liftcode
-	//RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetY()*0.5,Robot::driverStick->GetRawAxis(4)*0.5);
+	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetY()*0.5,Robot::driverStick->GetRawAxis(4)*0.5);
 	if(techStick->GetRawButton(XBOX::LBUMPER)) {
 		lowerOneTote->Start();
 	}
