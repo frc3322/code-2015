@@ -79,6 +79,11 @@ void Robot::RobotInit() {
 	raiseLift = new RunLift(0.5);
 	lowerLift = new RunLift(-0.5);
 	stopLift = new RunLift(0);
+	push = new APusH();
+	gearUp = new ShiftToHighGear();
+	gearDown = new ShiftToLowGear();
+	pull = new UnAPusH();
+	resetLift = new ResetLift();
 	//TODO: add code to ensure gyroscope has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
 	startDiagnosticLogging();
@@ -122,36 +127,70 @@ void Robot::TeleopPeriodic() {
 	if(driverStick->GetRawButton(XBOX::LBUMPER) || techStick->GetRawButton(XBOX::LBUMPER)) {
 		lowerOneTote->Start();
 	}
+
 	if(driverStick->GetRawButton(XBOX::RBUMPER) || techStick->GetRawButton(XBOX::RBUMPER)) {
 		raiseOneTote->Start();
 	}
+
 	if(driverStick->GetRawAxis(RIGHT_TRIGGER) > .5 || techStick->GetRawAxis(RIGHT_TRIGGER) > .5) {
 		raiseLift->Start();
-	}
-	else if(driverStick->GetRawAxis(LEFT_TRIGGER) > .5 || techStick->GetRawAxis(LEFT_TRIGGER) > .5) {
+	}else if(driverStick->GetRawAxis(LEFT_TRIGGER) > .5 || techStick->GetRawAxis(LEFT_TRIGGER) > .5) {
 		lowerLift->Start();
-	}
-	else{
+	}else {
 		raiseLift->Cancel();
 		lowerLift->Cancel();
 	}
-	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON)){
+
+	if(techStick->GetRawButton(XBOX::START)){
 		rotateWingsForward->Start();
+	}else {
+		rotateWingsForward->Cancel();
 	}
-	else{
+
+	if(techStick->GetRawButton(XBOX::BACK)){
+		rotateWingsBackward->Start();
+	}else {
 		rotateWingsBackward->Cancel();
 	}
-	if(driverStick->GetRawButton(XBOX::XBUTTON) || techStick->GetRawButton(XBOX::XBUTTON)){
+
+	if(techStick->GetRawButton(XBOX::XBUTTON)){
 		eagleWings->leftWinch->Set(.2);
-	}
-	else{
+	}else {
 		eagleWings->leftWinch->Set(0);
 	}
-	if(driverStick->GetRawButton(XBOX::BBUTTON) || techStick->GetRawButton(XBOX::BBUTTON)){
+
+	if(techStick->GetRawButton(XBOX::BBUTTON)){
 		eagleWings->rightWinch->Set(.2);
+	}else {
+		eagleWings->rightWinch->Set(0);
+	}
+
+	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::YBUTTON)) {
+		Robot::resetLift->Start();
+	}
+
+	if(techStick->GetRawButton(XBOX::ABUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
+		gearToggle = gearToggle * -1;
+	}
+	if(gearToggle == 1){
+		Robot::gearUp->Start();
+		Robot::gearDown->Cancel();
 	}
 	else{
-		eagleWings->rightWinch->Set(0);
+		Robot::gearDown->Start();
+		Robot::gearUp->Cancel();
+	}
+
+	if(techStick->GetRawButton(XBOX::LSTICKP)){
+		pushToggle = pushToggle * -1;
+	}
+	if(pushToggle == 1){
+		Robot::push->Start();
+		Robot::pull->Cancel();
+	}
+	else{
+		Robot::pull->Start();
+		Robot::push->Cancel();
 	}
 
 	if (false) {

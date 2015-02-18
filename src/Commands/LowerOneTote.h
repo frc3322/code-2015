@@ -22,6 +22,7 @@
  * @author ExampleAuthor
  */
 class LowerOneTote: public Command {
+	double startValue;
 	double startNumber;
 	double durationNumber;
 	double currentNumber;

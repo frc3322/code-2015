@@ -21,37 +21,20 @@ LowerOneTote::LowerOneTote() {
 
 // Called just before this Command runs the first time
 void LowerOneTote::Initialize() {
-	Robot::lift->encoder->Reset();
-	limitSwitchTripped = false;
-	startNumber = 	Robot::lift->encoder->GetDistance();;
-	durationNumber = 200;
+	durationNumber = 700;
+	startValue = Robot::lift->encoder->Get();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void LowerOneTote::Execute() {
-	Robot::lift->speedController1->Set(-.2);
-	Robot::lift->speedController2->Set(-.2);
-	if(!limitSwitchTripped) {
-	limitSwitchTripped = Robot::lift->limitSwitch->Get();
-	}
-	if(limitSwitchTripped){
-		printf("limitSwitch tripped!");
-	}
+	Robot::lift->speedController1->Set(-0.5);
+	Robot::lift->speedController2->Set(-0.5);
+	printf("raise one tote executing");
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool LowerOneTote::IsFinished() {
-	bool done = false;
-	if(Robot::lift->limitSwitch->Get()) {
-		startNumber = 	Robot::lift->encoder->GetDistance();
-		printf("start number %f", startNumber);
-	}
-	if(limitSwitchTripped){
-	printf("current Number %f", currentNumber);
-	currentNumber = Robot::lift->encoder->GetDistance();
-	done =  currentNumber-durationNumber >= startNumber;
-	}
-	return done;
+	return Robot::lift->encoder->Get() <= startValue - durationNumber;
 }
 
 // Called once after isFinished returns true
