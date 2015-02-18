@@ -84,6 +84,8 @@ void Robot::RobotInit() {
 	gearDown = new ShiftToLowGear();
 	pull = new UnAPusH();
 	resetLift = new ResetLift();
+	lowGear = true;
+	pushToggle = true;
 	//TODO: add code to ensure gyroscope has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
 	startDiagnosticLogging();
@@ -121,7 +123,7 @@ void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
 //	printf("Teleop\n");
 //	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
-//	logRow();
+	logRow();
 	//liftcode
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetY()*0.5,Robot::driverStick->GetRawAxis(4)*0.5);
 	if(driverStick->GetRawButton(XBOX::LBUMPER) || techStick->GetRawButton(XBOX::LBUMPER)) {
@@ -133,8 +135,10 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(driverStick->GetRawAxis(RIGHT_TRIGGER) > .5 || techStick->GetRawAxis(RIGHT_TRIGGER) > .5) {
+		lowerLift->Cancel();
 		raiseLift->Start();
 	}else if(driverStick->GetRawAxis(LEFT_TRIGGER) > .5 || techStick->GetRawAxis(LEFT_TRIGGER) > .5) {
+		raiseLift->Cancel();
 		lowerLift->Start();
 	}else {
 		raiseLift->Cancel();
@@ -142,25 +146,24 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(techStick->GetRawButton(XBOX::START)){
+		rotateWingsBackward->Cancel();
 		rotateWingsForward->Start();
-	}else {
+	}else if(techStick->GetRawButton(XBOX::BACK)){
 		rotateWingsForward->Cancel();
-	}
-
-	if(techStick->GetRawButton(XBOX::BACK)){
 		rotateWingsBackward->Start();
 	}else {
 		rotateWingsBackward->Cancel();
+		rotateWingsForward->Cancel();
 	}
 
 	if(techStick->GetRawButton(XBOX::XBUTTON)){
-		eagleWings->leftWinch->Set(.2);
+		eagleWings->leftWinch->Set(0.2);
 	}else {
 		eagleWings->leftWinch->Set(0);
 	}
 
 	if(techStick->GetRawButton(XBOX::BBUTTON)){
-		eagleWings->rightWinch->Set(.2);
+		eagleWings->rightWinch->Set(0.2);
 	}else {
 		eagleWings->rightWinch->Set(0);
 	}
@@ -170,35 +173,35 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(techStick->GetRawButton(XBOX::ABUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
-		gearToggle = gearToggle * -1;
+		lowGear = !lowGear;
 	}
-	if(gearToggle == 1){
-		Robot::gearUp->Start();
+	if(lowGear){
 		Robot::gearDown->Cancel();
+		Robot::gearUp->Start();
 	}
 	else{
-		Robot::gearDown->Start();
 		Robot::gearUp->Cancel();
+		Robot::gearDown->Start();
 	}
 
 	if(techStick->GetRawButton(XBOX::LSTICKP)){
-		pushToggle = pushToggle * -1;
+		pushToggle = !pushToggle;
 	}
-	if(pushToggle == 1){
-		Robot::push->Start();
+	if(pushToggle){
 		Robot::pull->Cancel();
+		Robot::push->Start();
 	}
 	else{
-		Robot::pull->Start();
 		Robot::push->Cancel();
+		Robot::pull->Start();
 	}
 
-	if (false) {
-		DigitalInput* limitSwitch = Robot::lift->limitSwitch;
-		void * params;
-		limitSwitch->EnableInterrupts();
-		//limitSwitch->RequestInterrupts(Robot::lift->LowerSwitchTriggered, params);
-	}
+//	if (false) {
+//		DigitalInput* limitSwitch = Robot::lift->limitSwitch;
+//		void * params;
+//		limitSwitch->EnableInterrupts();
+//		//limitSwitch->RequestInterrupts(Robot::lift->LowerSwitchTriggered, params);
+//	}
 }
 
 void Robot::TestPeriodic() {
