@@ -114,13 +114,13 @@ int bufferPrintf(const char* format,...)
     sem_post(&m_writing);
 	return -1;
 }
-//int Diagnostics::DashPrintf(const char* key, const char* format, ...) {
-//	if(!key || !format)return -1;
-//    va_list args;
-//    va_start(args, format);
-//    char buff[256];
-//    int len = vsnprintf(buff,256, format, args);
-//    SmartDashboard::PutString(key,buff);
-//    va_end(args);
-//    return len;
-//}
+int DashboardPrintf(const char* key, const char* format, ...) {
+	if(!key || !format)return -1;
+    va_list args;
+    va_start(args, format);
+    char buff[256];
+    int len = vsnprintf(buff,256, format, args);
+    SmartDashboard::PutString(key,buff);
+    va_end(args);
+    return len;
+}
