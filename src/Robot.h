@@ -90,5 +90,7 @@ public:
 	const static int RIGHT_TRIGGER = 3;
 	int gearToggle = 1;
 	int pushToggle = 1;
+	int camNumber = 1;
+
 };
 #endif

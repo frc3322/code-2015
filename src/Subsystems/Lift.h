@@ -37,6 +37,8 @@ public:
 	Lift();
 	void InitDefaultCommand();
 	static void LowerSwitchTriggered();
+	static void HigherLimitSwitchTriggered();
+	double highEncoderValue;
 };
 
 #endif
