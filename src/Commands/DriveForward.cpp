@@ -15,7 +15,7 @@ void DriveForward::Initialize() {
 	timeOut = 3.0;
 }
 void DriveForward::Execute() {
-	Robot::drivetrain->DriveOnHeading(-0.2);
+	Robot::drivetrain->DriveOnHeading(-0.15);
 }
 bool DriveForward::IsFinished() {
 	return 	Robot::stepDetectorator->IsAtStep() || Timer::GetFPGATimestamp() > startTime + timeOut;
