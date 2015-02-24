@@ -28,13 +28,13 @@ void ResetLift::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ResetLift::Execute() {
-	Robot::lift->speedController1->Set(-0.5);
-	Robot::lift->speedController2->Set(-0.5);
+	Robot::lift->encoder->Reset();
+	isFinished = true;
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool ResetLift::IsFinished() {
-	return 	isFinished;//Robot::lift->limitSwitch->Get();
+	return 	isFinished;
 }
 
 // Called once after isFinished returns true

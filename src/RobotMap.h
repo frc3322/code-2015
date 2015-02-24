@@ -45,6 +45,7 @@ public:
 	static AnalogInput* drivetrainleftSonar;
 	static AnalogInput* drivetrainrightSonar;
 	static SpeedController* wingRotater;
+	static DigitalInput* liftlimitswitchhigh;
 
 	static void init();
 };
