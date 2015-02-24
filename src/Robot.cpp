@@ -83,6 +83,7 @@ void Robot::RobotInit() {
 	gearDown = new ShiftToLowGear();
 	pull = new UnAPusH();
 	resetLift = new ResetLift();
+	pidLift = new PIDLift();
 	//TODO: add code to ensure gyroscope has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
 	startDiagnosticLogging();
@@ -192,6 +193,10 @@ void Robot::TeleopPeriodic() {
 	else{
 		Robot::pull->Start();
 		Robot::push->Cancel();
+	}
+	if(driverStick->GetRawButton(XBOX::XBUTTON)){
+		Robot::pidLift->Start();
+		printf("pid running!");
 	}
 //	if(techStick->GetRawButton(XBOX::LSTICKP)){
 //		camNumber = camNumber == 1 ? 0 : 1;
