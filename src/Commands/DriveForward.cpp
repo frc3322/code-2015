@@ -12,10 +12,10 @@ DriveForward::DriveForward() {
 void DriveForward::Initialize() {
 	Robot::drivetrain->ResetHeading();
 	startTime = Timer::GetFPGATimestamp();
-	timeOut = 3.0;
+	timeOut = SmartDashboard::GetNumber("driveForwardTimeout");
 }
 void DriveForward::Execute() {
-	Robot::drivetrain->DriveOnHeading(-0.15);
+	Robot::drivetrain->DriveOnHeading(SmartDashboard::GetNumber("driveForwardSpeed"));
 }
 bool DriveForward::IsFinished() {
 	return 	Robot::stepDetectorator->IsAtStep() || Timer::GetFPGATimestamp() > startTime + timeOut;

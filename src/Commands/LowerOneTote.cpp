@@ -21,14 +21,14 @@ LowerOneTote::LowerOneTote() {
 
 // Called just before this Command runs the first time
 void LowerOneTote::Initialize() {
-	durationNumber = 700;
+	durationNumber = SmartDashboard::GetNumber("lowerOneToteDuration");
 	startValue = Robot::lift->encoder->Get();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void LowerOneTote::Execute() {
-	Robot::lift->speedController1->Set(-0.5);
-	Robot::lift->speedController2->Set(-0.5);
+	Robot::lift->speedController1->Set(SmartDashboard::GetNumber("lowerOneToteSpeed"));
+	Robot::lift->speedController2->Set(SmartDashboard::GetNumber("lowerOneToteSpeed"));
 	printf("raise one tote executing");
 }
 

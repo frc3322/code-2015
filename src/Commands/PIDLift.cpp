@@ -23,17 +23,20 @@ PIDLift::PIDLift() {
 void PIDLift::Initialize() {
 //	test = new PIDController()
 	printf("pid command init");
-
+	liftPIDController = new PIDController(Robot::oi->p, Robot::oi->i, Robot::oi->d, Robot::lift->encoder, Robot::lift->speedController1);
+	liftPIDController->Enable();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void PIDLift::Execute() {
-	liftPIDController = new PIDController(Robot::oi->p, Robot::oi->i, Robot::oi->d, Robot::lift->encoder, Robot::lift->speedController1);
-	liftPIDController->Enable();
-	printf("p%f", Robot::oi->p);
-	liftPIDController->SetSetpoint(200);
+	p = SmartDashboard::GetNumber("p");
+	i = SmartDashboard::GetNumber("i");
+	d = SmartDashboard::GetNumber("d");
+	liftPIDController->SetPID(p,i,d);
+	liftPIDController->m_pidInput->PIDGet();
+	liftPIDController->SetSetpoint(SmartDashboard::GetNumber("pidLiftSetpoint"));
 	printf("pid command execute");
-	
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
