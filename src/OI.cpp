@@ -70,8 +70,8 @@ OI::OI() {
 	i = SmartDashboard::GetNumber("I",0);
 	d = SmartDashboard::GetNumber("D",0);
 
-//	SmartDashboard::PutNumber("autonNumber", 0);
-//	SmartDashboard::PutNumber("backupTime", 2);
+	SmartDashboard::PutNumber("autonNumber", 0);
+	SmartDashboard::PutNumber("backupTime", 2);
 
 }
 
