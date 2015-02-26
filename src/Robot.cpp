@@ -36,6 +36,8 @@ void Robot::logRow() {
 			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
 	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
 	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
+	DashboardPrintf("Acc x:","%f",drivetrain->driveGyro->GetAngle());
+
 }
 void Robot::RobotInit() {
 	RobotMap::init();
@@ -121,7 +123,7 @@ void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
 //	printf("Teleop\n");
 //	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
-//	logRow();
+	logRow();
 	//liftcode
 	DashboardPrintf("encoder ", "%f", lift->encoder->GetDistance());
 	DashboardPrintf("high value ", "%f", lift->highEncoderValue);
@@ -156,13 +158,13 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(techStick->GetRawButton(XBOX::XBUTTON)){
-		eagleWings->leftWinch->Set(.2);
+		eagleWings->leftWinch->Set(.4);
 	}else {
 		eagleWings->leftWinch->Set(0);
 	}
 
 	if(techStick->GetRawButton(XBOX::BBUTTON)){
-		eagleWings->rightWinch->Set(.2);
+		eagleWings->rightWinch->Set(.4);
 	}else {
 		eagleWings->rightWinch->Set(0);
 	}
