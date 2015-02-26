@@ -29,6 +29,8 @@ void ResetLift::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ResetLift::Execute() {
 	Robot::lift->encoder->Reset();
+	Robot::lift->speedController1->Set(0);
+	Robot::lift->speedController2->Set(0);
 	isFinished = true;
 }
 
