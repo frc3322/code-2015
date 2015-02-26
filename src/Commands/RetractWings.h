@@ -29,6 +29,8 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	float durationTime;
+	float startTime;
 };
 
 #endif

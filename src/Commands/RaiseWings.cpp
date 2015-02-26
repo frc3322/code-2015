@@ -26,8 +26,8 @@ void RaiseWings::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void RaiseWings::Execute() {
-	Robot::eagleWings->leftServo->Set(90);
-	Robot::eagleWings->rightServo->Set(90);
+//	Robot::eagleWings->leftServo->Set(90);
+//	Robot::eagleWings->rightServo->Set(90);
 	
 }
 

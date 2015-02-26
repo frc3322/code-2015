@@ -12,4 +12,4 @@
 int startLogging();		//returns ERROR if something goes wrong
 int flushToDisk();
 int bufferPrintf(const char* format, ...);
-//int DashPrintf(const char* key, const char* format, ...);
+int DashboardPrintf(const char* key, const char* format, ...);

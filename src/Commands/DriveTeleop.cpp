@@ -33,7 +33,8 @@ void DriveTeleop::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveTeleop::Execute() {
-	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(driverStick->GetX()*0.5, driverStick->GetY()*0.5,driverStick->GetRawAxis(4)*0.5);
+	//RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()*0.5, Robot::driverStick->GetRawAxis(4)*0.5,Robot::driverStick->GetY()*0.5);
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
