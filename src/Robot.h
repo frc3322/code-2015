@@ -101,6 +101,7 @@ public:
 	int pushToggle = 1;
 	int camNumber = 1;
 	int deployToggle = -1;
+	double alignTime;
 
 };
 #endif

@@ -92,14 +92,15 @@ void Robot::RobotInit() {
 	deployAligner = new DeployAligner();
 	retractAligner = new RetractAligner();
 	//TODO: add code to ensure gyroscope has initialized
-	deployToggle = -1;
-	gearToggle = 1;
-	pushToggle = 1;
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
 	startDiagnosticLogging();
 	SetupRobot();
 }
 void Robot::SetupRobot() {
+	deployToggle = -1;
+	gearToggle = 1;
+	pushToggle = 1;
+	alignTime = 0;
 	Robot::lift->pusher->Set(DoubleSolenoid::kForward);
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
@@ -195,13 +196,17 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(techStick->GetRawButton(XBOX::RSTICKP)) {
+		if(Timer::GetFPGATimestamp() - alignTime >= .25){
 		deployToggle *= -1;
+		}
 
 		if(deployToggle == 1) {
 			deployAligner->Start();
+			alignTime = Timer::GetFPGATimestamp();
 		}
 		else if (deployToggle == -1) {
 			retractAligner->Start();
+			alignTime = Timer::GetFPGATimestamp();
 		}
 	}
 
