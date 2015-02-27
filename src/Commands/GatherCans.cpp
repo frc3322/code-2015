@@ -6,8 +6,7 @@
 #include "AutonJerky.h"
 #include "timedDrive.h"
 
-GatherCans::GatherCans() {
-	int autonNumber = 1;//SmartDashboard::GetNumber("autonNumber");
+GatherCans::GatherCans(int autonNumber) {
 	switch(autonNumber){
 		case 2:
 			auton2();

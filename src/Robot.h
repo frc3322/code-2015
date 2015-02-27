@@ -88,6 +88,7 @@ public:
 	virtual void TestPeriodic();
 	void startDiagnosticLogging();
 	void logRow();
+	void SetupRobot();
 	const static int LEFT_TRIGGER = 2;
 	const static int RIGHT_TRIGGER = 3;
 	int gearToggle = 1;

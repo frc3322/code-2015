@@ -21,7 +21,7 @@ LowerOneTote::LowerOneTote() {
 
 // Called just before this Command runs the first time
 void LowerOneTote::Initialize() {
-	durationNumber = 700;
+	durationNumber = SmartDashboard::GetNumber("indexToteDistance");  //41 ticks/inch, at 15 inches
 	startValue = Robot::lift->encoder->Get();
 }
 

@@ -28,8 +28,8 @@ void ResetLift::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ResetLift::Execute() {
-	Robot::lift->speedController1->Set(-0.3);
-	Robot::lift->speedController2->Set(-0.3);
+	Robot::lift->speedController1->Set(-0.6);
+	Robot::lift->speedController2->Set(-0.6);
 }
 
 // Make this return true when this Command no longer needs to run execute()
