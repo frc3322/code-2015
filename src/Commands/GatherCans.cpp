@@ -7,19 +7,18 @@
 #include "timedDrive.h"
 
 GatherCans::GatherCans() {
-	int autonNumber = SmartDashboard::GetNumber("autonNumber");
-	auton1();
-//	switch(autonNumber){
-//	case 1:{
-//		auton1();
-//	}
-//	case 2:{
-//		auton2();
-//	}
-//	case 3:{
-//		auton3();
-//	}
-//	}
+	int autonNumber = 1;//SmartDashboard::GetNumber("autonNumber");
+	switch(autonNumber){
+		case 2:
+			auton2();
+			break;
+		case 3:
+			auton3();
+			break;
+		default:
+			auton1();
+			break;
+	}
 }
 
 void GatherCans::auton1(){

@@ -31,6 +31,9 @@ public:
 	virtual void Interrupted();
 	double startTime;
 	double timeOut;
+	double hitStepAt;
+	bool isReady;
+	bool hasHitStep;
 };
 
 #endif
