@@ -47,6 +47,7 @@ public:
 	static AnalogInput* drivetrainrightSonar;
 	static SpeedController* wingRotater;
 	static DigitalInput* liftlimitswitchhigh;
+	static DoubleSolenoid* alignerDeploy;
 
 	static void init();
 };

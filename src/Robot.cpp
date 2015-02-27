@@ -188,6 +188,15 @@ void Robot::TeleopPeriodic() {
 	if(techStick->GetRawButton(XBOX::ABUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
 		gearToggle = gearToggle * -1;
 	}
+
+//	if(techStick->GetRawButton(XBOX::RSTICKP)) {
+//		deployToggle *= -1;
+//
+//		if(deployToggle == 1) {
+//			Robot::
+//		}
+//	}
+
 	if(gearToggle == 1){
 		Robot::gearUp->Start();
 		Robot::gearDown->Cancel();
