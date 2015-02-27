@@ -23,7 +23,8 @@ void LiftInterupt(uint32_t x, void *param){
 	printf("limit switch interrupt callback");
 	ResetLift* resetLift = (ResetLift*)param;
 	if(resetLift) {
-		resetLift->Start();
+		resetLift->isFinished = true;
+		Robot::lift->encoder->Reset();
 	}
 }
 

@@ -169,9 +169,9 @@ void Robot::TeleopPeriodic() {
 		eagleWings->rightWinch->Set(0);
 	}
 
-//	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::YBUTTON)) {
-//		Robot::resetLift->Start();
-//	}
+	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::YBUTTON)) {
+		Robot::resetLift->Start(); //starts the command that catches the limit switch
+	}
 
 	if(techStick->GetRawButton(XBOX::ABUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
 		gearToggle = gearToggle * -1;
