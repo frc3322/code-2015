@@ -41,6 +41,9 @@
 #include "OI.h"
 #include "Subsystems/Lift.h"
 #include "Subsystems/StepDetectorator.h"
+#include "Commands/DeployAligner.h"
+#include "Commands/RetractAligner.h"
+
 
 class Robot : public IterativeRobot {
 public:
@@ -65,6 +68,8 @@ public:
 	Command* pull;
 	Command* resetLift;
 	Command* pidLift;
+	Command* deployAligner;
+	Command* retractAligner;
 
 	static OI *oi;
 	LiveWindow *lw;
@@ -95,6 +100,7 @@ public:
 	int gearToggle = 1;
 	int pushToggle = 1;
 	int camNumber = 1;
+	int deployToggle = -1;
 
 };
 #endif
