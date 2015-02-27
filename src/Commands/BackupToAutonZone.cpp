@@ -15,7 +15,7 @@ void BackupToAutonZone::Initialize() {
 	startTime = Timer::GetFPGATimestamp();
 }
 void BackupToAutonZone::Execute() {
-	Robot::drivetrain->DriveOnHeading(.4);
+	Robot::drivetrain->DriveOnHeading(.35);
 }
 bool BackupToAutonZone::IsFinished() {
 	return Timer::GetFPGATimestamp() > startTime + duration;

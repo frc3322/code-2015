@@ -104,6 +104,9 @@ public:
 	double alignTime;
 	double pushTime;
 	double gearTime;
+	double driveMultiplier;
+	int driveMode = 1;
+	double driveToggleTime;
 
 };
 #endif

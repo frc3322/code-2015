@@ -41,6 +41,7 @@ bool ResetLift::IsFinished() {
 void ResetLift::End() {
 	Robot::lift->speedController1->Set(0);
 	Robot::lift->speedController2->Set(0);
+//	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 	printf("reset lift ended\n");
 }
 
