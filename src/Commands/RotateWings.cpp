@@ -31,9 +31,6 @@ void RotateWings::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void RotateWings::Execute() {
 	Robot::eagleWings->wingRotater->Set(direction);
-	if(direction>0){
-		Robot::drivetrain->DriveOnHeading(-.2);
-	}
 }
 
 

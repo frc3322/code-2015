@@ -7,6 +7,7 @@
 #include "timedDrive.h"
 
 GatherCans::GatherCans(int autonNumber) {
+	autonNumber = 1;
 	switch(autonNumber){
 		case 2:
 			auton2();

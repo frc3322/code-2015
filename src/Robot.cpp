@@ -36,7 +36,7 @@ void Robot::logRow() {
 			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
 	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
 	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
-	DashboardPrintf("Gyro:","%f",drivetrain->driveGyro->GetAngle());
+	DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
 	SmartDashboard::PutNumber("encoderValue", Robot::lift->encoder->Get());
 
 }
@@ -106,6 +106,7 @@ void Robot::DisabledPeriodic() {
 //		autonCalibration->SetRunWhenDisabled(true);
 //		autonCalibration->Start();
 //	}
+	logRow();
 
 }
 void Robot::AutonomousInit() {
@@ -155,15 +156,15 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(techStick->GetRawButton(XBOX::START)){
+		rotateWingsBackward->Cancel();
 		rotateWingsForward->Start();
-	}else {
+	}else if(techStick->GetRawButton(XBOX::BACK)){
 		rotateWingsForward->Cancel();
-	}
-
-	if(techStick->GetRawButton(XBOX::BACK)){
 		rotateWingsBackward->Start();
 	}else {
 		rotateWingsBackward->Cancel();
+		rotateWingsForward->Cancel();
+		eagleWings->wingRotater->Set(0);
 	}
 
 	if(techStick->GetRawButton(XBOX::XBUTTON)){
