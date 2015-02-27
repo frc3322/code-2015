@@ -101,6 +101,8 @@ void Robot::SetupRobot() {
 	gearToggle = 1;
 	pushToggle = 1;
 	alignTime = 0;
+	gearTime = 0;
+	pushTime = 0;
 	Robot::lift->pusher->Set(DoubleSolenoid::kForward);
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
@@ -187,26 +189,28 @@ void Robot::TeleopPeriodic() {
 		eagleWings->rightWinch->Set(0);
 	}
 
-	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::YBUTTON)) {
+	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON)) {
 		Robot::resetLift->Start(); //starts the command that catches the limit switch
+		gearUp->Start();
 	}
 
-	if(techStick->GetRawButton(XBOX::ABUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
+	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
+		if(Timer::GetFPGATimestamp - gearTime >= .5)
 		gearToggle = gearToggle * -1;
+		gearTime = Timer::GetFPGATimestamp();
 	}
 
 	if(techStick->GetRawButton(XBOX::RSTICKP)) {
-		if(Timer::GetFPGATimestamp() - alignTime >= .25){
+		if (Timer::GetFPGATimestamp() - alignTime >= .5){
 		deployToggle *= -1;
+		alignTime = Timer::GetFPGATimestamp();
 		}
 
 		if(deployToggle == 1) {
 			deployAligner->Start();
-			alignTime = Timer::GetFPGATimestamp();
 		}
 		else if (deployToggle == -1) {
 			retractAligner->Start();
-			alignTime = Timer::GetFPGATimestamp();
 		}
 	}
 
@@ -220,7 +224,10 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(techStick->GetRawButton(XBOX::LSTICKP)){
+		if(Timer::GetFPGATimestamp() - pushTime >=.5){
 		pushToggle = pushToggle * -1;
+		pushTime = Timer::GetFPGATimestamp();
+		}
 	}
 	if(pushToggle == 1){
 		Robot::push->Start();
