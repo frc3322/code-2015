@@ -107,6 +107,7 @@ public:
 	double driveMultiplier;
 	int driveMode = 1;
 	double driveToggleTime;
+	bool autonUseGyro;
 
 };
 #endif

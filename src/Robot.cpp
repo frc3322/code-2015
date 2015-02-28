@@ -111,7 +111,9 @@ void Robot::SetupRobot() {
 }
 void Robot::DisabledInit(){
 	SmartDashboard::PutBoolean("resetGyro", false);
+	SmartDashboard::PutBoolean("autonUseGyro",true);
 	flushToDisk();
+
 }
 void Robot::DisabledPeriodic() {
 	Scheduler::GetInstance()->Run();
@@ -125,7 +127,7 @@ void Robot::DisabledPeriodic() {
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
 	logRow();
-
+	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
 void Robot::AutonomousInit() {
 //	int autonNumber = SmartDashboard::GetNumber("autonNumber");

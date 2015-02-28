@@ -36,7 +36,20 @@ void Drivetrain::ResetHeading() {
 }
 double Drivetrain::CorrectionAngle() {
 	//TODO: code to detect gyroscope failure + fall-back mode (hard-coded constants)
-	return -0.02 * driveGyro->GetAngle();
+	if(SmartDashboard::GetBoolean("autonUseGyro")){
+		double gyroAngle = driveGyro->GetAngle();
+		if(fabs(gyroAngle) <3){
+			return -0.02 * gyroAngle;
+		}
+		else {
+			printf("gyro error too high");
+		}
+	}
+	else {
+		printf("not using gyroscope");
+	}
+	return 0;
+
 }
 void Drivetrain::DriveOnHeading(double velocity) {
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle());
