@@ -15,10 +15,10 @@ void DriveForward::Initialize() {
 	hasHitStep = false;
 	isReady = false;
 	hitStepAt = 0;
-	timeOut = 8.0;
+	timeOut = 6.0;
 }
 void DriveForward::Execute() {
-	Robot::drivetrain->DriveOnHeading(-0.2);
+	Robot::drivetrain->DriveOnHeading(-0.25);
 
 }
 bool DriveForward::IsFinished() {
