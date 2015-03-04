@@ -29,7 +29,6 @@ void RunLift::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void RunLift::Execute() {
 	Robot::lift->speedController1->Set(RunLift::direction);
-	Robot::lift->speedController2->Set(RunLift::direction);
 }
 
 // Make this return true when this Command no longer needs to run execute()

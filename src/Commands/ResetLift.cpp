@@ -29,7 +29,6 @@ void ResetLift::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ResetLift::Execute() {
 	Robot::lift->speedController1->Set(-0.6);
-	Robot::lift->speedController2->Set(-0.6);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -40,7 +39,6 @@ bool ResetLift::IsFinished() {
 // Called once after isFinished returns true
 void ResetLift::End() {
 	Robot::lift->speedController1->Set(0);
-	Robot::lift->speedController2->Set(0);
 //	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 	printf("reset lift ended\n");
 }
