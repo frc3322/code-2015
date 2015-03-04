@@ -28,7 +28,6 @@ void LowerOneTote::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void LowerOneTote::Execute() {
 	Robot::lift->speedController1->Set(-0.5);
-	Robot::lift->speedController2->Set(-0.5);
 	printf("raise one tote executing");
 }
 
