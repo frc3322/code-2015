@@ -95,7 +95,7 @@ void Robot::RobotInit() {
 	stopLift = new RunLift(0);
 	//TODO: add code to ensure gyroscope has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
-	startDiagnosticLogging();
+//	startDiagnosticLogging();
 	SetupRobot();
 }
 void Robot::SetupRobot() {
@@ -114,7 +114,7 @@ void Robot::SetupRobot() {
 void Robot::DisabledInit(){
 	SmartDashboard::PutBoolean("resetGyro", false);
 	SmartDashboard::PutBoolean("autonUseGyro",true);
-	flushToDisk();
+//	flushToDisk();
 
 }
 void Robot::DisabledPeriodic() {
@@ -128,7 +128,7 @@ void Robot::DisabledPeriodic() {
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
-	logRow();
+//	logRow();
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
 void Robot::AutonomousInit() {
@@ -141,7 +141,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
 	Scheduler::GetInstance()->Run();
-	logRow();
+//	logRow();
 }
 
 void Robot::TeleopInit() {
@@ -155,7 +155,7 @@ void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
 	printf("Teleop\n");
 	printf("liftencoder %f", Robot::lift->encoder->GetDistance());
-	logRow();
+//	logRow();
 	DashboardPrintf("encoder ", "%f", lift->encoder->GetDistance());
 	DashboardPrintf("high value ", "%f", lift->highEncoderValue);
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()* driveMultiplier, Robot::driverStick->GetY()* driveMultiplier,Robot::driverStick->GetRawAxis(4)* driveMultiplier);
