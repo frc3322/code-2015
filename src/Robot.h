@@ -107,6 +107,8 @@ public:
 	double pushTime;
 	double driveMultiplier;
 	double driveToggleTime;
+	double pidToggleTime;
 	bool autonUseGyro;
+	int counter;
 };
 #endif

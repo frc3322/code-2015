@@ -40,6 +40,7 @@ public:
 	double highEncoderValue;
 	void toggleGear();
 	double lastLiftShiftTime;
+	PIDController* pidController;
 };
 void LiftInterupt(uint32_t x, void *param);
 #endif

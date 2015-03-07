@@ -36,12 +36,14 @@ void Robot::startDiagnosticLogging() {
 	bufferPrintf("Gyro, Acc X, Acc Y\n");
 }
 void Robot::logRow() {
-	bufferPrintf("%f, %f, %f\n",RobotMap::drivetraindriveGyro->GetAngle(),
-			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
-	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
-	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
-	DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
-	SmartDashboard::PutNumber("encoderValue", Robot::lift->encoder->Get());
+//	bufferPrintf("%f, %f, %f\n",RobotMap::drivetraindriveGyro->GetAngle(),
+//			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
+//	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
+//	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
+//	DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
+	DashboardPrintf("Encoder Value:","%f", lift->encoder->Get());
+
+//	SmartDashboard::PutNumber("encoderValue", Robot::lift->encoder->Get());
 
 }
 void Robot::RobotInit() {
@@ -106,6 +108,7 @@ void Robot::SetupRobot() {
 	pushTime = 0;
 	driveMultiplier = .5;
 	driveToggleTime = 0;
+	pidToggleTime = 0;
 	Robot::lift->pusher->Set(DoubleSolenoid::kForward);
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
@@ -174,127 +177,102 @@ void Robot::TeleopPeriodic() {
 			Robot::drivetrain->toggleFastMode();
 	}
 	SmartDashboard::PutBoolean("In Fast Mode",Robot::drivetrain->fastMode);
-	Robot::drivetrain->DriveTeleop(Robot::driverStick->GetX(),Robot::driverStick->GetY(),
-			Robot::driverStick->GetRawAxis(4));
+	SmartDashboard::PutNumber("PID Encoder",Robot::lift->encoder->Get());
 
-	LiftState liftState = getLiftState();
-	switch (liftState) {
-	case RaisingTote:
-		resetLift->Cancel();
-		stopLift->Cancel();
-		raiseLift->Cancel();
-		lowerLift->Cancel();
-		lowerOneTote->Cancel();
-		raiseOneTote->Start();
-		break;
-	case LoweringTote:
-		resetLift->Cancel();
-		stopLift->Cancel();
-		raiseLift->Cancel();
-		lowerLift->Cancel();
-		raiseOneTote->Cancel();
-		lowerOneTote->Start();
-		break;
-	case ManualRaisingLift:
-		resetLift->Cancel();
-		stopLift->Cancel();
-		lowerLift->Cancel();
-		raiseOneTote->Cancel();
-		lowerOneTote->Cancel();
-		raiseLift->Start();
-		break;
-	case ManualLoweringLift:
-		resetLift->Cancel();
-		stopLift->Cancel();
-		raiseOneTote->Cancel();
-		lowerOneTote->Cancel();
-		raiseLift->Cancel();
-		lowerLift->Start();
-		break;
-	case ResettingLift:
-		stopLift->Cancel();
-		raiseLift->Cancel();
-		lowerLift->Cancel();
-		lowerOneTote->Cancel();
-		raiseOneTote->Cancel();
-		resetLift->Start(); //starts the command that catches the limit switch
-		gearUp->Start();
-		break;
-	case LiftStopped:
-		resetLift->Cancel();
-		raiseOneTote->Cancel();
-		lowerOneTote->Cancel();
-		raiseLift->Cancel();
-		lowerLift->Cancel();
-		stopLift->Start();
-		break;
-	default:
-		;
-	}
-	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
-		lift->toggleGear();
+	counter++;
+	if (counter > 10) {
+		counter = 0;
+		printf("\nEncoderValue %d\n", lift->encoder->Get());
 	}
 
 
-//	SmartDashboard::PutBoolean("resetLiftIsRunning", resetLift->IsRunning());
-//	if(techStick->GetRawButton(XBOX::START)){
-//		rotateWingsBackward->Cancel();
-//		rotateWingsForward->Start();
-//	}else if(techStick->GetRawButton(XBOX::BACK)){
-//		rotateWingsForward->Cancel();
-//		rotateWingsBackward->Start();
-//	}else {
-//		rotateWingsBackward->Cancel();
-//		rotateWingsForward->Cancel();
-//		eagleWings->wingRotater->Set(0);
-//	}
-//
-//	if(techStick->GetRawButton(XBOX::XBUTTON)){
-//		eagleWings->leftWinch->Set(.4);
-//	}else {
-//		eagleWings->leftWinch->Set(0);
-//	}
-//
-//	if(techStick->GetRawButton(XBOX::BBUTTON)){
-//		eagleWings->rightWinch->Set(.4);
-//	}else {
-//		eagleWings->rightWinch->Set(0);
-//	}
-//	if(techStick->GetRawButton(XBOX::RSTICKP)) {
-//		if (Timer::GetFPGATimestamp() - alignTime >= .5){
-//			deployToggle *= -1;
-//			alignTime = Timer::GetFPGATimestamp();
-//		}
-//
-//		if(deployToggle == 1) {
-//			deployAligner->Start();
-//		}
-//		else if (deployToggle == -1) {
-//			retractAligner->Start();
-//		}
-//	}
+	float p = SmartDashboard::GetNumber("P");
+	float i = SmartDashboard::GetNumber("I");
+	float d = SmartDashboard::GetNumber("D");
 
-//	if(techStick->GetRawButton(XBOX::LSTICKP)){
-//		if(Timer::GetFPGATimestamp() - pushTime >=.5){
-//			pushToggle = pushToggle * -1;
-//			pushTime = Timer::GetFPGATimestamp();
-//		}
-//	}
-//	if(pushToggle == 1){
-//		Robot::push->Start();
-//		Robot::pull->Cancel();
-//	}
-//	else{
-//		Robot::pull->Start();
-//		Robot::push->Cancel();
-//	}
-//	if(driverStick->GetRawButton(XBOX::XBUTTON)){
+	float setpoint = SmartDashboard::GetNumber("setpoint");
+
+	if(SmartDashboard::GetBoolean("resetEncoder")){
+		Robot::lift->encoder->Reset();
+		SmartDashboard::PutBoolean("resetEncoder", false);
+	}
+
+	if(driverStick->GetRawButton(XBOX::XBUTTON) && time - pidToggleTime >= 0.5){
+			pidToggleTime = time;
+
+			if (lift->pidController->IsEnabled()) {
+				lift->pidController->Disable();
+			}
+			else {
+				lift->pidController->SetPID(p,i,d);
+				lift->pidController->SetSetpoint(setpoint);
+				lift->pidController->SetPercentTolerance(5);
+				printf("p %f i %f d %f set %f", p,i,d,setpoint);
+				lift->pidController->Enable();
+			}
+
+			Robot::drivetrain->toggleFastMode();
+	}
+//	Robot::drivetrain->DriveTeleop(Robot::driverStick->GetX(),Robot::driverStick->GetY(),
+//			Robot::driverStick->GetRawAxis(4));
+
+//	LiftState liftState = getLiftState();
+//	switch (liftState) {
+//	case RaisingTote:
+//		resetLift->Cancel();
+//		stopLift->Cancel();
+//		raiseLift->Cancel();
+//		lowerLift->Cancel();
+//		lowerOneTote->Cancel();
+//		raiseOneTote->Start();
+//		break;
+//	case LoweringTote:
+//		resetLift->Cancel();
+//		stopLift->Cancel();
+//		raiseLift->Cancel();
+//		lowerLift->Cancel();
+//		raiseOneTote->Cancel();
+//		lowerOneTote->Start();
+//		break;
+//	case ManualRaisingLift:
+//		resetLift->Cancel();
+//		stopLift->Cancel();
+//		lowerLift->Cancel();
+//		raiseOneTote->Cancel();
+//		lowerOneTote->Cancel();
+//		raiseLift->Start();
+//		break;
+//	case ManualLoweringLift:
+//		resetLift->Cancel();
+//		stopLift->Cancel();
+//		raiseOneTote->Cancel();
+//		lowerOneTote->Cancel();
+//		raiseLift->Cancel();
 //		lowerLift->Start();
+//		break;
+//	case ResettingLift:
+//		stopLift->Cancel();
+//		raiseLift->Cancel();
+//		lowerLift->Cancel();
+//		lowerOneTote->Cancel();
+//		raiseOneTote->Cancel();
+//		resetLift->Start(); //starts the command that catches the limit switch
+//		gearUp->Start();
+//		break;
+//	case LiftStopped:
+//		resetLift->Cancel();
+//		raiseOneTote->Cancel();
+//		lowerOneTote->Cancel();
+//		raiseLift->Cancel();
+//		lowerLift->Cancel();
+//		stopLift->Start();
+//		break;
+//	default:
+//		;
 //	}
-//	//	if(techStick->GetRawButton(XBOX::LSTICKP)){
-//	//		camNumber = camNumber == 1 ? 0 : 1;
-//	//		CameraServer::GetInstance()->StartAutomaticCapture("cam"+camNumber);
-//	//	}
+//	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
+//		lift->toggleGear();
+//	}
 }
 
 void Robot::TestPeriodic() {
