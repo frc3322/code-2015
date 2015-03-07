@@ -142,6 +142,11 @@ void Robot::TeleopInit() {
 	RobotMap::drivetraindriveGyro->Reset();
 }
 
+//Jeanette:  I THINK if we get rid of the or isRunning
+//if a command needs PID it should enable it
+//if a command doesn't want PID it should disable it
+//otherwise, stop the lift if and only if PID is disabled
+
 LiftState Robot::getLiftState() {
 	if(driverStick->GetRawAxis(RIGHT_TRIGGER) > 0.5 || techStick->GetRawAxis(RIGHT_TRIGGER) > 0.5)
 		return ManualRaisingLift;

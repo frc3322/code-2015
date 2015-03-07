@@ -34,16 +34,15 @@ void RaiseOneTote::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool RaiseOneTote::IsFinished() {
-	printf("\nis on target %b\n", Robot::lift->pidController->OnTarget());
-//	return Robot::lift->pidController->OnTarget();
 	//this is a hack solution
+	//we want this:
+	//return false;
 	return Robot::lift->speedController1->Get() < .01 &&
 			Robot::lift->pidController->GetSetpoint() - Robot::lift->encoder->Get() < 20; //.5 inch margin of error
 }
 
 // Called once after isFinished returns true
 void RaiseOneTote::End() {
-	Robot::lift->pidController->Disable();
 }
 
 // Called when another command which requires one or more of the same
