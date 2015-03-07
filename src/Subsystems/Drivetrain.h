@@ -35,6 +35,14 @@ public:
 	void DriveOnHeading(double velocity);
 	Drivetrain();
 	void InitDefaultCommand();
+	void DriveTeleop(double x, double y, double r);
+	void toggleFastMode();
+	double xScalar;
+	double yScalar;
+	double rotationScalar;
+	bool quadraticScaling;
+	bool fastMode;
+	bool fastModeMultiplier;
 };
 
 #endif

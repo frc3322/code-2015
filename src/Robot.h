@@ -106,7 +106,6 @@ public:
 	double alignTime;
 	double pushTime;
 	double driveMultiplier;
-	int driveMode = 1;
 	double driveToggleTime;
 	bool autonUseGyro;
 };

@@ -106,7 +106,6 @@ void Robot::SetupRobot() {
 	pushTime = 0;
 	driveMultiplier = .5;
 	driveToggleTime = 0;
-	driveMode = 1;
 	Robot::lift->pusher->Set(DoubleSolenoid::kForward);
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
@@ -169,7 +168,15 @@ LiftState Robot::getLiftState() {
 void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
 //	logRow();
-	RobotMap::drivetrainrobotDrive->MecanumDrive_Cartesian(Robot::driverStick->GetX()* driveMultiplier, Robot::driverStick->GetY()* driveMultiplier,Robot::driverStick->GetRawAxis(4)* driveMultiplier);
+	double time = Timer::GetFPGATimestamp();
+	if(driverStick->GetRawButton(XBOX::LSTICKP) && time - driveToggleTime >= 0.5){
+			driveToggleTime = time;
+			Robot::drivetrain->toggleFastMode();
+	}
+	SmartDashboard::PutBoolean("In Fast Mode",Robot::drivetrain->fastMode);
+	Robot::drivetrain->DriveTeleop(Robot::driverStick->GetX(),Robot::driverStick->GetY(),
+			Robot::driverStick->GetRawAxis(4));
+
 	LiftState liftState = getLiftState();
 	switch (liftState) {
 	case RaisingTote:
@@ -253,20 +260,6 @@ void Robot::TeleopPeriodic() {
 //	}else {
 //		eagleWings->rightWinch->Set(0);
 //	}
-//	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON)) {
-//		stopLift->Cancel();
-//		raiseLift->Cancel();
-//		lowerLift->Cancel();
-//		Robot::resetLift->Start(); //starts the command that catches the limit switch
-//		gearUp->Start();
-//	}
-//
-//	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
-//		if(Timer::GetFPGATimestamp() - gearTime >= .5)
-//			gearToggle = gearToggle * -1;
-//		gearTime = Timer::GetFPGATimestamp();
-//	}
-//
 //	if(techStick->GetRawButton(XBOX::RSTICKP)) {
 //		if (Timer::GetFPGATimestamp() - alignTime >= .5){
 //			deployToggle *= -1;
@@ -302,19 +295,6 @@ void Robot::TeleopPeriodic() {
 //	//		camNumber = camNumber == 1 ? 0 : 1;
 //	//		CameraServer::GetInstance()->StartAutomaticCapture("cam"+camNumber);
 //	//	}
-//	if(driverStick->GetRawButton(XBOX::LSTICKP)){
-//		if(Timer::GetFPGATimestamp() - driveToggleTime >= .5){
-//			driveMode *= -1;
-//			driveToggleTime = Timer::GetFPGATimestamp();
-//		}
-//	}
-//	if(driveMode == 1){
-//		driveMultiplier = .5;
-//	}
-//	else if(driveMode == -1){
-//		driveMultiplier = .25;
-//	}
-
 }
 
 void Robot::TestPeriodic() {
