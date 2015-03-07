@@ -147,20 +147,22 @@ LiftState Robot::getLiftState() {
 		return ManualRaisingLift;
 	if(driverStick->GetRawAxis(LEFT_TRIGGER) > 0.5 || techStick->GetRawAxis(LEFT_TRIGGER) > 0.5)
 		return ManualLoweringLift;
-	if(driverStick->GetRawButton(XBOX::RBUMPER) || techStick->GetRawButton(XBOX::RBUMPER))
+	if(driverStick->GetRawButton(XBOX::RBUMPER) || techStick->GetRawButton(XBOX::RBUMPER) || raiseOneTote->IsRunning())
 		return RaisingTote;
-	if(driverStick->GetRawButton(XBOX::LBUMPER) || techStick->GetRawButton(XBOX::LBUMPER))
+	if(driverStick->GetRawButton(XBOX::LBUMPER) || techStick->GetRawButton(XBOX::LBUMPER) || lowerOneTote->IsRunning())
 		return LoweringTote;
-	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON))
+	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON) || resetLift->IsRunning())
 		return ResettingLift;
-	if(resetLift->IsRunning() || raiseOneTote->IsRunning() || lowerOneTote->IsRunning())
-		return LiftRunning;
+//	if(resetLift->IsRunning() || raiseOneTote->IsRunning() || lowerOneTote->IsRunning())
+//		return LiftRunning;
 	return LiftStopped;
 }
 
 void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
-	logRow();
+//	logRow();
+	SmartDashboard::PutBoolean("isOnTarget", Robot::lift->pidController->OnTarget());
+
 	double time = Timer::GetFPGATimestamp();
 	if(driverStick->GetRawButton(XBOX::LSTICKP) && time - driveToggleTime >= 0.5){
 			driveToggleTime = time;

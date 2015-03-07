@@ -21,24 +21,29 @@ RaiseOneTote::RaiseOneTote() {
 
 // Called just before this Command runs the first time
 void RaiseOneTote::Initialize() {
-	durationNumber = SmartDashboard::GetNumber("indexToteDistance") ; //41 ticks/inch at 15 inches
-	startValue = Robot::lift->encoder->Get();
+	targetPosition = SmartDashboard::GetNumber("indexToteDistance") + Robot::lift->encoder->Get(); //41 ticks/inch at 15 inches
+	Robot::lift->pidController->SetSetpoint(targetPosition);
+	Robot::lift->pidController->Enable();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RaiseOneTote::Execute() {
-	Robot::lift->speedController1->Set(.5);
+//	Robot::lift->speedController1->Set(.5);
 	printf("raise one tote executing");
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool RaiseOneTote::IsFinished() {
-	return Robot::lift->encoder->Get() >= startValue + durationNumber;
+	printf("\nis on target %b\n", Robot::lift->pidController->OnTarget());
+//	return Robot::lift->pidController->OnTarget();
+	//this is a hack solution
+	return Robot::lift->speedController1->Get() < .01 &&
+			Robot::lift->pidController->GetSetpoint() - Robot::lift->encoder->Get() < 20; //.5 inch margin of error
 }
 
 // Called once after isFinished returns true
 void RaiseOneTote::End() {
-	Robot::lift->speedController1->Set(0);
+	Robot::lift->pidController->Disable();
 }
 
 // Called when another command which requires one or more of the same

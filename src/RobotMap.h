@@ -46,6 +46,7 @@ public:
 	static DigitalInput* liftlimitswitchhigh;
 	static DoubleSolenoid* alignerDeploy;
 	static SpeedController* alignerSpinner;
+	static PIDController* liftPidController;
 
 	static void init();
 };
