@@ -39,8 +39,7 @@ bool ResetLift::IsFinished() {
 // Called once after isFinished returns true
 void ResetLift::End() {
 	Robot::lift->speedController1->Set(0);
-//	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
-	printf("reset lift ended\n");
+	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
 
 // Called when another command which requires one or more of the same

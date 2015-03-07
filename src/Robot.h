@@ -44,6 +44,8 @@
 #include "Commands/DeployAligner.h"
 #include "Commands/RetractAligner.h"
 
+enum LiftState { RaisingTote, LoweringTote, ManualRaisingLift, ManualLoweringLift,
+	LiftStopped, LiftRunning, ResettingLift, ShiftingToHighGear, ShiftingToLowGear};
 
 class Robot : public IterativeRobot {
 public:
@@ -95,19 +97,17 @@ public:
 	void startDiagnosticLogging();
 	void logRow();
 	void SetupRobot();
+	LiftState getLiftState();
 	const static int LEFT_TRIGGER = 2;
 	const static int RIGHT_TRIGGER = 3;
-	int gearToggle = 1;
 	int pushToggle = 1;
 	int camNumber = 1;
 	int deployToggle = -1;
 	double alignTime;
 	double pushTime;
-	double gearTime;
 	double driveMultiplier;
 	int driveMode = 1;
 	double driveToggleTime;
 	bool autonUseGyro;
-
 };
 #endif

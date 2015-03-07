@@ -38,6 +38,8 @@ public:
 	static void LowerSwitchTriggered();
 	static void HigherLimitSwitchTriggered();
 	double highEncoderValue;
+	void toggleGear();
+	double lastLiftShiftTime;
 };
 void LiftInterupt(uint32_t x, void *param);
 #endif
