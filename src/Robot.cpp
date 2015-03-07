@@ -36,11 +36,11 @@ void Robot::startDiagnosticLogging() {
 	bufferPrintf("Gyro, Acc X, Acc Y\n");
 }
 void Robot::logRow() {
-	bufferPrintf("%f, %f, %f\n",RobotMap::drivetraindriveGyro->GetAngle(),
-			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
-	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
-	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
-	DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
+//	bufferPrintf("%f, %f, %f\n",RobotMap::drivetraindriveGyro->GetAngle(),
+//			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
+//	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
+//	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
+//	DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
 	SmartDashboard::PutNumber("encoderValue", Robot::lift->encoder->Get());
 
 }
@@ -96,12 +96,11 @@ void Robot::RobotInit() {
 	stopLift = new RunLift(0);
 	//TODO: add code to ensure gyroscope has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
-//	startDiagnosticLogging();
+	startDiagnosticLogging();
 	SetupRobot();
 }
 void Robot::SetupRobot() {
 	deployToggle = -1;
-	pushToggle = 1;
 	alignTime = 0;
 	pushTime = 0;
 	driveMultiplier = .5;
@@ -112,21 +111,15 @@ void Robot::SetupRobot() {
 void Robot::DisabledInit(){
 	SmartDashboard::PutBoolean("resetGyro", false);
 	SmartDashboard::PutBoolean("autonUseGyro",true);
-//	flushToDisk();
-
+	flushToDisk();
 }
 void Robot::DisabledPeriodic() {
 	Scheduler::GetInstance()->Run();
-	//	if(RobotMap::liftlimitSwitch->Get()) {
-	//		printf("Start Auton Calibration\n");
-	//		autonCalibration->SetRunWhenDisabled(true);
-	//		autonCalibration->Start();
-	//	}
 	if(SmartDashboard::GetBoolean("resetGyro")){
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
-//	logRow();
+	logRow();
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
 void Robot::AutonomousInit() {
@@ -167,7 +160,7 @@ LiftState Robot::getLiftState() {
 
 void Robot::TeleopPeriodic() {
 	Scheduler::GetInstance()->Run();
-//	logRow();
+	logRow();
 	double time = Timer::GetFPGATimestamp();
 	if(driverStick->GetRawButton(XBOX::LSTICKP) && time - driveToggleTime >= 0.5){
 			driveToggleTime = time;
@@ -234,9 +227,7 @@ void Robot::TeleopPeriodic() {
 	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
 		lift->toggleGear();
 	}
-
-
-//	SmartDashboard::PutBoolean("resetLiftIsRunning", resetLift->IsRunning());
+	SmartDashboard::PutBoolean("resetLiftIsRunning", resetLift->IsRunning());
 //	if(techStick->GetRawButton(XBOX::START)){
 //		rotateWingsBackward->Cancel();
 //		rotateWingsForward->Start();
@@ -260,41 +251,31 @@ void Robot::TeleopPeriodic() {
 //	}else {
 //		eagleWings->rightWinch->Set(0);
 //	}
-//	if(techStick->GetRawButton(XBOX::RSTICKP)) {
-//		if (Timer::GetFPGATimestamp() - alignTime >= .5){
-//			deployToggle *= -1;
-//			alignTime = Timer::GetFPGATimestamp();
-//		}
-//
-//		if(deployToggle == 1) {
-//			deployAligner->Start();
-//		}
-//		else if (deployToggle == -1) {
-//			retractAligner->Start();
-//		}
-//	}
+	if(techStick->GetRawButton(XBOX::RSTICKP)) {
+		if (Timer::GetFPGATimestamp() - alignTime >= .5){
+			deployToggle *= -1;
+			alignTime = Timer::GetFPGATimestamp();
+		}
 
-//	if(techStick->GetRawButton(XBOX::LSTICKP)){
-//		if(Timer::GetFPGATimestamp() - pushTime >=.5){
-//			pushToggle = pushToggle * -1;
-//			pushTime = Timer::GetFPGATimestamp();
-//		}
-//	}
-//	if(pushToggle == 1){
-//		Robot::push->Start();
-//		Robot::pull->Cancel();
-//	}
-//	else{
-//		Robot::pull->Start();
-//		Robot::push->Cancel();
-//	}
-//	if(driverStick->GetRawButton(XBOX::XBUTTON)){
-//		lowerLift->Start();
-//	}
-//	//	if(techStick->GetRawButton(XBOX::LSTICKP)){
-//	//		camNumber = camNumber == 1 ? 0 : 1;
-//	//		CameraServer::GetInstance()->StartAutomaticCapture("cam"+camNumber);
-//	//	}
+		if(deployToggle == 1) {
+			deployAligner->Start();
+		}
+		else if (deployToggle == -1) {
+			retractAligner->Start();
+		}
+	}
+
+	if(techStick->GetRawButton(XBOX::LSTICKP) && time - pushTime >= 0.5){
+			pushTime = time;
+			if(Robot::lift->pusher->Get() == DoubleSolenoid::kReverse)
+				Robot::lift->pusher->Set(DoubleSolenoid::kForward);
+			else
+				Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
+	}
+	//	if(techStick->GetRawButton(XBOX::LSTICKP)){
+	//		camNumber = camNumber == 1 ? 0 : 1;
+	//		CameraServer::GetInstance()->StartAutomaticCapture("cam"+camNumber);
+	//	}
 }
 
 void Robot::TestPeriodic() {
