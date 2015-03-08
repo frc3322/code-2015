@@ -37,8 +37,9 @@ bool RaiseOneTote::IsFinished() {
 	//this is a hack solution
 	//we want this:
 	//return false;
-	return Robot::lift->speedController1->Get() < .01 &&
-			Robot::lift->pidController->GetSetpoint() - Robot::lift->encoder->Get() < 20; //.5 inch margin of error
+	return false;
+//			Robot::lift->speedController1->Get() < .01 &&
+//			Robot::lift->pidController->GetSetpoint() - Robot::lift->encoder->Get() < 20; //.5 inch margin of error
 }
 
 // Called once after isFinished returns true
