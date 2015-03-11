@@ -27,6 +27,35 @@ void LiftInterupt(uint32_t x, void *param){
 	}
 }
 
+int Lift::getCurrentPosition(){
+	return currentHookIndex;
+}
+int Lift::previousPosition(){
+	int previousIndex = currentHookIndex-1;
+	if(previousIndex<0){
+		previousIndex = 0;
+	}
+	currentHookIndex = previousIndex;
+	return hookPositions[currentHookIndex];
+
+}
+int Lift::nextPosition(){
+	int nextIndex = currentHookIndex + 1;
+	if (nextIndex > hookPositions.size() - 1) {
+		nextIndex = hookPositions.size() - 1;
+	}
+	currentHookIndex = nextIndex;
+	return hookPositions[currentHookIndex];
+}
+void Lift::indexUp(){
+	pidController->SetSetpoint(nextPosition());
+	printf("\nindex up one to %d", hookPositions[currentHookIndex]);
+}
+void Lift::indexDown(){
+	pidController->SetSetpoint(previousPosition());
+	printf("\nindex down one to %d", hookPositions[currentHookIndex]);
+}
+
 void Lift::toggleGear() {
 	double time = Timer::GetFPGATimestamp();
 	if(time - lastLiftShiftTime >= 0.5) {	//TODO: is this time too high
@@ -54,6 +83,7 @@ Lift::Lift(Command* resetLift) : Subsystem("lift") {
 	lastLiftShiftTime = 0.0;
 	limitSwitch->RequestInterrupts(LiftInterupt, resetLift);
 	limitSwitch->EnableInterrupts();
+
 }
     
 void Lift::InitDefaultCommand() {

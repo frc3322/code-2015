@@ -21,25 +21,21 @@ LowerOneTote::LowerOneTote() {
 
 // Called just before this Command runs the first time
 void LowerOneTote::Initialize() {
-	targetPosition = SmartDashboard::GetNumber("indexToteDistance") - Robot::lift->encoder->Get(); //41 ticks/inch at 15 inches
-	Robot::lift->pidController->SetSetpoint(targetPosition);
-	Robot::lift->pidController->Enable();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void LowerOneTote::Execute() {
-	printf("lower one tote executing");
-
+	Robot::lift->pidController->Enable();
+	Robot::lift->indexDown();
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool LowerOneTote::IsFinished() {
-	return false;
+	return true;
 }
 
 // Called once after isFinished returns true
 void LowerOneTote::End() {
-	Robot::lift->speedController1->Set(0);
 }
 
 // Called when another command which requires one or more of the same

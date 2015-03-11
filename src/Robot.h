@@ -97,6 +97,7 @@ public:
 	void startDiagnosticLogging();
 	void logRow();
 	void SetupRobot();
+	bool isNewPress(double time1, double time2);
 	LiftState getLiftState();
 	const static int LEFT_TRIGGER = 2;
 	const static int RIGHT_TRIGGER = 3;
@@ -107,6 +108,8 @@ public:
 	double pushTime;
 	double driveMultiplier;
 	double driveToggleTime;
+	double indexUpTime;
+	double indexDownTime;
 	bool autonUseGyro;
 };
 #endif
