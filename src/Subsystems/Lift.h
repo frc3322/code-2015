@@ -41,7 +41,7 @@ public:
 	double highEncoderValue;
 	void toggleGear();
 	double lastLiftShiftTime;
-	std::array<int,5> hookPositions = {{-196,96,1272,1878,2658}};
+	std::array<int,5> hookPositions = {{SmartDashboard::GetNumber("pos1"),SmartDashboard::GetNumber("pos2"),SmartDashboard::GetNumber("pos3"),SmartDashboard::GetNumber("pos4")}}; //{-196,96,1272,1878,2658}
 	int currentHookIndex;
 	float p = 0.01;
 	float i = 0.00005;

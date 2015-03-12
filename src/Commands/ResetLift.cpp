@@ -28,6 +28,7 @@ void ResetLift::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ResetLift::Execute() {
+	Robot::lift->pidController->Disable();
 	Robot::lift->speedController1->Set(-0.6);
 }
 
@@ -40,6 +41,8 @@ bool ResetLift::IsFinished() {
 void ResetLift::End() {
 	Robot::lift->speedController1->Set(0);
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
+	Robot::lift->pidController->Enable();
+	Robot::lift->pidController->SetSetpoint(SmartDashboard::GetNumber("pos1"));
 }
 
 // Called when another command which requires one or more of the same

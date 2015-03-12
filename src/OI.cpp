@@ -47,6 +47,12 @@ OI::OI() {
 	SmartDashboard::PutNumber("indexToteDistance",450);
 	SmartDashboard::PutNumber("autonNumber - not implemented", 0);
 	SmartDashboard::PutNumber("backupTime", 3);
+	SmartDashboard::PutNumber("pos1", 0);
+	SmartDashboard::PutNumber("pos2", 0);
+	SmartDashboard::PutNumber("pos3", 0);
+	SmartDashboard::PutNumber("pos4", 0);
+	SmartDashboard::PutNumber("pos5", 0);
+
 
 }
 

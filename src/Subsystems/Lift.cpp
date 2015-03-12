@@ -24,6 +24,10 @@ void LiftInterupt(uint32_t x, void *param){
 	if(resetLift) {
 		resetLift->isFinished = true;
 		Robot::lift->encoder->Reset();
+		Robot::lift->speedController1->Set(0);
+		Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
+		Robot::lift->pidController->Enable();
+		Robot::lift->pidController->SetSetpoint(SmartDashboard::GetNumber("pos1"));
 	}
 }
 
@@ -40,25 +44,42 @@ int Lift::previousPosition(){
 
 }
 int Lift::nextPosition(){
-	int nextIndex = currentHookIndex + 1;
-	if (nextIndex > hookPositions.size() - 1) {
-		nextIndex = hookPositions.size() - 1;
+	int nextIndex;
+	if((encoder->Get()-SmartDashboard::GetNumber("pos1"))>=-40){
+		nextIndex = 2;
 	}
+//	nextIndex = currentHookIndex + 1;
+//	if (nextIndex > hookPositions.size() - 1) {
+//		nextIndex = hookPositions.size() - 1;
+//	}
+	else if((encoder->Get()-SmartDashboard::GetNumber("pos2"))>=-40){
+		nextIndex = 3;
+	}
+	else if((encoder->Get()-SmartDashboard::GetNumber("pos3"))>=-40){
+		nextIndex = 4;
+	}
+	else if((encoder->Get()-SmartDashboard::GetNumber("pos4"))>=-40){
+		nextIndex = 5;
+	}
+	else
+		nextIndex = 1;
 	currentHookIndex = nextIndex;
 	return hookPositions[currentHookIndex];
 }
 void Lift::indexUp(){
+	gearboxShifter->Set(DoubleSolenoid::kReverse);
 	pidController->SetSetpoint(nextPosition());
 	printf("\nindex up one to %d", hookPositions[currentHookIndex]);
 }
 void Lift::indexDown(){
+	gearboxShifter->Set(DoubleSolenoid::kReverse);
 	pidController->SetSetpoint(previousPosition());
 	printf("\nindex down one to %d", hookPositions[currentHookIndex]);
 }
 
 void Lift::toggleGear() {
 	double time = Timer::GetFPGATimestamp();
-	if(time - lastLiftShiftTime >= 0.5) {	//TODO: is this time too high
+	if(time - lastLiftShiftTime >= 0.4) {	//TODO: is this time too high
 		lastLiftShiftTime = time;
 		if(RobotMap::liftgearboxShifter->Get() == DoubleSolenoid::kForward) {
 			RobotMap::liftgearboxShifter->Set(DoubleSolenoid::kReverse);
