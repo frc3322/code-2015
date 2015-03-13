@@ -63,7 +63,7 @@ void Lift::indexDown() {
 
 void Lift::toggleGear() {
 	double time = Timer::GetFPGATimestamp();
-	if (time - lastLiftShiftTime >= 0.5) {	//TODO: is this time too high
+	if (time - lastLiftShiftTime >= 0.25) {	//TODO: is this time too high
 		lastLiftShiftTime = time;
 		if (RobotMap::liftgearboxShifter->Get() == DoubleSolenoid::kForward) {
 			RobotMap::liftgearboxShifter->Set(DoubleSolenoid::kReverse);
