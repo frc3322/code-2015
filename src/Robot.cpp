@@ -39,8 +39,8 @@ void Robot::logRow() {
 	//	bufferPrintf("%f, %f, %f\n",RobotMap::drivetraindriveGyro->GetAngle(),
 	//			stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
 	//	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
-	//	DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
-	//	DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
+		DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
+		DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
 	SmartDashboard::PutNumber("encoderValue", Robot::lift->encoder->Get());
 
 }
@@ -111,6 +111,7 @@ void Robot::SetupRobot() {
 void Robot::DisabledInit(){
 	SmartDashboard::PutBoolean("resetGyro", false);
 	SmartDashboard::PutBoolean("autonUseGyro",true);
+	SmartDashboard::PutBoolean("In High Gear", Robot::lift->gearboxShifter->Get() == DoubleSolenoid::kForward);
 	flushToDisk();
 }
 void Robot::DisabledPeriodic() {
@@ -119,8 +120,6 @@ void Robot::DisabledPeriodic() {
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
-	bool getLimitSwitch = lift->limitSwitch->Get();
-	printf("limitSwitch %d", getLimitSwitch);
 	logRow();
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
@@ -196,6 +195,8 @@ void Robot::TeleopPeriodic() {
 		Robot::drivetrain->toggleFastMode();
 	}
 	SmartDashboard::PutBoolean("In Fast Mode",Robot::drivetrain->fastMode);
+	SmartDashboard::PutBoolean("In High Gear", Robot::lift->gearboxShifter->Get() == DoubleSolenoid::kForward);
+	SmartDashboard::PutNumber("Hook Number ", lift->currentHookIndex);
 	Robot::drivetrain->DriveTeleop(Robot::driverStick->GetX(),Robot::driverStick->GetY(),
 			Robot::driverStick->GetRawAxis(4));
 	LiftState liftState = getLiftState();
@@ -284,13 +285,13 @@ void Robot::TeleopPeriodic() {
 		aligner->spinner->Set(0);
 	}
 //
-//	if(techStick->GetRawButton(XBOX::LSTICKP) && time - pushTime >= 0.5){
-//		pushTime = time;
-//		if(Robot::lift->pusher->Get() == DoubleSolenoid::kReverse)
-//			Robot::lift->pusher->Set(DoubleSolenoid::kForward);
-//		else
-//			Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
-//	}
+	if(techStick->GetRawButton(XBOX::LSTICKP) && time - pushTime >= 0.5){
+		pushTime = time;
+		if(Robot::lift->pusher->Get() == DoubleSolenoid::kReverse)
+			Robot::lift->pusher->Set(DoubleSolenoid::kForward);
+		else
+			Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
+	}
 	//	if(techStick->GetRawButton(XBOX::LSTICKP)){
 	//		camNumber = camNumber == 1 ? 0 : 1;
 	//		CameraServer::GetInstance()->StartAutomaticCapture("cam"+camNumber);
