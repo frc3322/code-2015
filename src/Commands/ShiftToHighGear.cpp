@@ -26,7 +26,7 @@ void ShiftToHighGear::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ShiftToHighGear::Execute() {
-	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kReverse);
+	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
 
 // Make this return true when this Command no longer needs to run execute()
