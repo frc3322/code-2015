@@ -141,6 +141,8 @@ void Robot::TeleopInit() {
 		autonomousCommand->Cancel();
 	//TODO: put this in a reset method that is shared with autoninit
 	RobotMap::drivetraindriveGyro->Reset();
+	SmartDashboard::GetNumber("autonNumber");
+//	gearDown->Start();
 //	Robot::lift->limitSwitch->DisableInterrupts();
 }
 

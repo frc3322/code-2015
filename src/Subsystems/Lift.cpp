@@ -53,10 +53,12 @@ int Lift::nextPosition() {
 	return hookPositions[currentHookIndex];
 }
 void Lift::indexUp() {
+//	Lift::gearboxShifter->Set(DoubleSolenoid::kForward);
 	pidController->SetSetpoint(nextPosition());
 	printf("\nindex up one to %d", hookPositions[currentHookIndex]);
 }
 void Lift::indexDown() {
+//	Lift::gearboxShifter->Set(DoubleSolenoid::kForward);
 	pidController->SetSetpoint(previousPosition());
 	printf("\nindex down one to %d", hookPositions[currentHookIndex]);
 }

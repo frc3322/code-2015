@@ -30,12 +30,14 @@ void ResetLift::Initialize() {
 void ResetLift::Execute() {
 	if(RobotBase::getInstance().IsAutonomous()){
 	Robot::lift->pidController->Disable();
-	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
+	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kReverse);
 	Robot::lift->speedController1->Set(-1);
+	Robot::lift->currentHookIndex = 0;
 	}
 	else
 		Robot::lift->pidController->Enable();
 		Robot::lift->pidController->SetSetpoint(-221);
+		Robot::lift->currentHookIndex = 0;
 }
 
 // Make this return true when this Command no longer needs to run execute()
