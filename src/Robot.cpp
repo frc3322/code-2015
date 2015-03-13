@@ -124,9 +124,9 @@ void Robot::DisabledPeriodic() {
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
 void Robot::AutonomousInit() {
-	//	int autonNumber = SmartDashboard::GetNumber("autonNumber");
+		int autonNumber = SmartDashboard::GetNumber("autonNumber");
 	//	DashboardPrintf("autonNumber","%d", autonNumber);
-	int autonNumber = 1;
+//	int autonNumber = 1;
 	autonomousCommand = new GatherCans(autonNumber);
 	autonomousCommand->Start();
 }

@@ -36,20 +36,29 @@ int Lift::getCurrentPosition() {
 	return currentHookIndex;
 }
 int Lift::previousPosition() {
-	int previousIndex = currentHookIndex - 1;
-	if (previousIndex < 0) {
-		previousIndex = 0;
+	int currentEncoderValue = this->encoder->Get();
+	int allowedError = 40;
+	int maxHookIndex = hookPositions.size() - 1;
+	for(int i = maxHookIndex; i >= 0; i--){
+		if(currentEncoderValue - allowedError > hookPositions[i]){
+			currentHookIndex = i;
+			return hookPositions[currentHookIndex];
+		}
 	}
-	currentHookIndex = previousIndex;
+	currentHookIndex = 0;
 	return hookPositions[currentHookIndex];
-
 }
 int Lift::nextPosition() {
-	int nextIndex = currentHookIndex + 1;
-	if (nextIndex > hookPositions.size() - 1) {
-		nextIndex = hookPositions.size() - 1;
+	int currentEncoderValue = this->encoder->Get();
+	int allowedError = 40;
+	int nextIndex = -1;
+	for(int i = 0; i < hookPositions.size(); i++) {
+		if (currentEncoderValue + allowedError < hookPositions[i]) {
+			currentHookIndex = i;
+			return hookPositions[currentHookIndex];
+		}
 	}
-	currentHookIndex = nextIndex;
+	currentHookIndex = hookPositions.size()-1;
 	return hookPositions[currentHookIndex];
 }
 void Lift::indexUp() {

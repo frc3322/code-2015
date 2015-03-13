@@ -8,13 +8,19 @@
 #include "ResetLift.h"
 
 GatherCans::GatherCans(int autonNumber) {
-	autonNumber = 1;
+//	autonNumber = 1;
 	switch(autonNumber){
 		case 2:
 			auton2();
 			break;
 		case 3:
 			auton3();
+			break;
+		case 4:
+			auton4();
+			break;
+		case 5:
+			auton5();
 			break;
 		default:
 			auton1();
