@@ -74,7 +74,7 @@ void Robot::RobotInit() {
 	autonCalibration = new AutonCalibration();
 	alignWithStep = new AlignWithStep();
 	backupToAutonZone = new BackupToAutonZone();
-	driveForward = new DriveForward();
+//	driveForward = new DriveForward();
 	//	gatherCans = new GatherCans();
 	lowerOneTote = new LowerOneTote();
 	raiseOneTote = new RaiseOneTote();

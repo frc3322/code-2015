@@ -25,7 +25,7 @@ GatherCans::GatherCans(int autonNumber) {
 void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
-	AddSequential(new DriveForward());
+	AddSequential(new DriveForward(6,0.25));
 //	AddSequential(new AlignWithStep());
 	AddSequential(new RotateWings(0.2,2));
 	AddSequential(new AutonJerky());
@@ -40,4 +40,22 @@ void GatherCans::auton2(){
 }
 void GatherCans::auton3(){
 	//do nothing....
+}
+void GatherCans::auton4(){
+	Robot::eagleWings->wingRotater->Set(0);
+	AddParallel(new ResetLift());
+	AddSequential(new DriveForward(5,0.30));
+//	AddSequential(new AlignWithStep());
+	AddSequential(new RotateWings(0.2,2));
+	AddSequential(new AutonJerky());
+	AddSequential(new BackupToAutonZone());
+}
+void GatherCans::auton5(){
+	Robot::eagleWings->wingRotater->Set(0);
+	AddParallel(new ResetLift());
+	AddSequential(new DriveForward(5,0.35));
+//	AddSequential(new AlignWithStep());
+	AddSequential(new RotateWings(0.2,2));
+	AddSequential(new AutonJerky());
+	AddSequential(new BackupToAutonZone());
 }

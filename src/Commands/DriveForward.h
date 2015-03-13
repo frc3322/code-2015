@@ -23,7 +23,7 @@
  */
 class DriveForward: public Command {
 public:
-	DriveForward();
+	DriveForward(double timeOut, double speed);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
@@ -32,6 +32,7 @@ public:
 	double startTime;
 	double timeOut;
 	double hitStepAt;
+	double speed;
 	bool isReady;
 	bool hasHitStep;
 };
