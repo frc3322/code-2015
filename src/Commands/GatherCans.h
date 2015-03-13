@@ -23,6 +23,7 @@
 class GatherCans: public CommandGroup {
 public:	
 	GatherCans(int autonNumber);
+	bool hasResetLift;
 	void auton1();
 	void auton2();
 	void auton3();

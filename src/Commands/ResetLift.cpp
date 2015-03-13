@@ -28,18 +28,31 @@ void ResetLift::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ResetLift::Execute() {
-	Robot::lift->speedController1->Set(-0.6);
+	if(RobotBase::getInstance().IsAutonomous()){
+	Robot::lift->pidController->Disable();
+	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
+	Robot::lift->speedController1->Set(-1);
+	}
+	else
+		Robot::lift->pidController->Enable();
+		Robot::lift->pidController->SetSetpoint(-221);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool ResetLift::IsFinished() {
+	if(Robot::RobotBase::getInstance().IsAutonomous()){
+		isFinished = Robot::lift->limitSwitch->Get();
+	}
 	return 	isFinished;
 }
 
 // Called once after isFinished returns true
 void ResetLift::End() {
 	Robot::lift->speedController1->Set(0);
-	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
+	if(Robot::RobotBase::getInstance().IsAutonomous()){
+		Robot::lift->encoder->Reset();
+	}
+//	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }
 
 // Called when another command which requires one or more of the same

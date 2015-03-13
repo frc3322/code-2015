@@ -119,6 +119,8 @@ void Robot::DisabledPeriodic() {
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
+	bool getLimitSwitch = lift->limitSwitch->Get();
+	printf("limitSwitch %d", getLimitSwitch);
 	logRow();
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
@@ -140,6 +142,7 @@ void Robot::TeleopInit() {
 		autonomousCommand->Cancel();
 	//TODO: put this in a reset method that is shared with autoninit
 	RobotMap::drivetraindriveGyro->Reset();
+//	Robot::lift->limitSwitch->DisableInterrupts();
 }
 
 //Jeanette:  I THINK if we get rid of the or isRunning
@@ -157,18 +160,23 @@ LiftState Robot::getLiftState() {
 	if(driverStick->GetRawAxis(LEFT_TRIGGER) > 0.5 || techStick->GetRawAxis(LEFT_TRIGGER) > 0.5)
 		return ManualLoweringLift;
 
-	if((driverStick->GetRawButton(XBOX::RBUMPER) || techStick->GetRawButton(XBOX::RBUMPER))
+	if((driverStick->GetRawButton(XBOX::RBUMPER))
 			&& isNewPress(indexUpTime, currentTime)){
 		indexUpTime = currentTime;
 		return RaisingTote;
 	}
-	if((driverStick->GetRawButton(XBOX::LBUMPER) || techStick->GetRawButton(XBOX::LBUMPER))
+	if((driverStick->GetRawButton(XBOX::LBUMPER))
 			&& isNewPress(indexDownTime, currentTime)){
 		indexDownTime = currentTime;
 		return LoweringTote;
 	}
 	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON))// || resetLift->IsRunning())
 		return ResettingLift;
+
+
+
+
+
 	if(resetLift->IsRunning() || raiseOneTote->IsRunning() || lowerOneTote->IsRunning())
 		return LiftRunning;
 	if(!Robot::lift->pidController->IsEnabled()){
@@ -225,6 +233,7 @@ void Robot::TeleopPeriodic() {
 		lowerLift->Start();
 		break;
 	case ResettingLift:
+		lift->pidController->Disable();
 		stopLift->Cancel();
 		raiseLift->Cancel();
 		lowerLift->Cancel();
@@ -248,54 +257,50 @@ void Robot::TeleopPeriodic() {
 		lift->toggleGear();
 	}
 	SmartDashboard::PutBoolean("resetLiftIsRunning", resetLift->IsRunning());
-	//	if(techStick->GetRawButton(XBOX::START)){
-	//		rotateWingsBackward->Cancel();
-	//		rotateWingsForward->Start();
-	//	}else if(techStick->GetRawButton(XBOX::BACK)){
-	//		rotateWingsForward->Cancel();
-	//		rotateWingsBackward->Start();
-	//	}else {
-	//		rotateWingsBackward->Cancel();
-	//		rotateWingsForward->Cancel();
-	//		eagleWings->wingRotater->Set(0);
-	//	}
-	//
-	//	if(techStick->GetRawButton(XBOX::XBUTTON)){
-	//		eagleWings->leftWinch->Set(.4);
-	//	}else {
-	//		eagleWings->leftWinch->Set(0);
-	//	}
-	//
-	//	if(techStick->GetRawButton(XBOX::BBUTTON)){
-	//		eagleWings->rightWinch->Set(.4);
-	//	}else {
-	//		eagleWings->rightWinch->Set(0);
-	//	}
+		if(techStick->GetRawButton(XBOX::START)){
+			rotateWingsBackward->Cancel();
+			rotateWingsForward->Start();
+		}else if(techStick->GetRawButton(XBOX::BACK)){
+			rotateWingsForward->Cancel();
+			rotateWingsBackward->Start();
+		}else {
+			rotateWingsBackward->Cancel();
+			rotateWingsForward->Cancel();
+			eagleWings->wingRotater->Set(0);
+		}
+
+		if(techStick->GetRawButton(XBOX::XBUTTON)){
+			eagleWings->leftWinch->Set(.4);
+		}else {
+			eagleWings->leftWinch->Set(0);
+		}
+
+		if(techStick->GetRawButton(XBOX::BBUTTON)){
+			eagleWings->rightWinch->Set(.4);
+		}else {
+			eagleWings->rightWinch->Set(0);
+		}
 	if(techStick->GetRawButton(XBOX::RSTICKP)) {
-		if (Timer::GetFPGATimestamp() - alignTime >= .5){
-			deployToggle *= -1;
-			alignTime = Timer::GetFPGATimestamp();
-		}
-
-		if(deployToggle == 1) {
-			deployAligner->Start();
-		}
-		else if (deployToggle == -1) {
-			retractAligner->Start();
-		}
+		aligner->spinner->Set(0);
 	}
-
-	if(techStick->GetRawButton(XBOX::LSTICKP) && time - pushTime >= 0.5){
-		pushTime = time;
-		if(Robot::lift->pusher->Get() == DoubleSolenoid::kReverse)
-			Robot::lift->pusher->Set(DoubleSolenoid::kForward);
-		else
-			Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
-	}
+//
+//	if(techStick->GetRawButton(XBOX::LSTICKP) && time - pushTime >= 0.5){
+//		pushTime = time;
+//		if(Robot::lift->pusher->Get() == DoubleSolenoid::kReverse)
+//			Robot::lift->pusher->Set(DoubleSolenoid::kForward);
+//		else
+//			Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
+//	}
 	//	if(techStick->GetRawButton(XBOX::LSTICKP)){
 	//		camNumber = camNumber == 1 ? 0 : 1;
 	//		CameraServer::GetInstance()->StartAutomaticCapture("cam"+camNumber);
 	//	}
+	if(techStick->GetRawButton(XBOX::RBUMPER)){
+		deployAligner->Start();
+	}
+	else if(techStick->GetRawButton(XBOX::LBUMPER)){
+		retractAligner->Start();
+	}
 }
 
 void Robot::TestPeriodic() {

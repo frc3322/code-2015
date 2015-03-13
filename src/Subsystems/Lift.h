@@ -41,7 +41,7 @@ public:
 	double highEncoderValue;
 	void toggleGear();
 	double lastLiftShiftTime;
-	std::array<int,5> hookPositions = {{-196,96,1272,1878,2658}};
+	std::array<int,5> hookPositions = {{-221,44,662,1338,2047}};
 	int currentHookIndex;
 	float p = 0.01;
 	float i = 0.00005;

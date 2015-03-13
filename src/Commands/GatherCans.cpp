@@ -5,6 +5,7 @@
 #include "BackupToAutonZone.h"
 #include "AutonJerky.h"
 #include "timedDrive.h"
+#include "ResetLift.h"
 
 GatherCans::GatherCans(int autonNumber) {
 	autonNumber = 1;
@@ -23,6 +24,7 @@ GatherCans::GatherCans(int autonNumber) {
 
 void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
+	AddParallel(new ResetLift());
 	AddSequential(new DriveForward());
 //	AddSequential(new AlignWithStep());
 	AddSequential(new RotateWings(0.2,2));
