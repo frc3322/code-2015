@@ -27,7 +27,7 @@ void GatherCans::auton1(){
 	AddParallel(new ResetLift());
 	AddSequential(new DriveForward());
 //	AddSequential(new AlignWithStep());
-	//AddSequential(new RotateWings(0.2,2));
+	AddSequential(new RotateWings(0.2,2));
 	AddSequential(new AutonJerky());
 	AddSequential(new BackupToAutonZone());
 //	AddSequential(new RotateWings(-.2,.4));
