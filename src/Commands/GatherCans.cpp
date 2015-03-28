@@ -42,15 +42,17 @@ void GatherCans::auton2(){
 	//drive forward
 	double duration = 2;
 	double speed = .3;
+	AddParallel(new ResetLift());
 	AddSequential(new timedDrive(duration, speed));
 }
 void GatherCans::auton3(){
+	AddParallel(new ResetLift());
 	//do nothing....
 }
 void GatherCans::auton4(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
-	AddSequential(new DriveForward(5,0.30));
+	AddSequential(new DriveForward(4.5,0.30));
 //	AddSequential(new AlignWithStep());
 	AddSequential(new RotateWings(0.2,2));
 	AddSequential(new AutonJerky());
@@ -59,7 +61,7 @@ void GatherCans::auton4(){
 void GatherCans::auton5(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
-	AddSequential(new DriveForward(5,0.35));
+	AddSequential(new DriveForward(4,0.35));
 //	AddSequential(new AlignWithStep());
 	AddSequential(new RotateWings(0.2,2));
 	AddSequential(new AutonJerky());
