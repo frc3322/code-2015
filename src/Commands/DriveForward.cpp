@@ -18,8 +18,7 @@ void DriveForward::Initialize() {
 	hitStepAt = 0;
 }
 void DriveForward::Execute() {
-	Robot::drivetrain->DriveOnHeading(-speed);
-
+	Robot::drivetrain->DriveOnHeading(-speed, fabs(SmartDashboard::GetNumber("DriveForwardCorrectionConstant")));	//TODO: put on smartbashboard
 }
 bool DriveForward::IsFinished() {
 	if(!hasHitStep && Robot::stepDetectorator->IsAtStep()){
@@ -31,7 +30,7 @@ bool DriveForward::IsFinished() {
 	return 	isReady || Timer::GetFPGATimestamp() > startTime + timeOut;
 }
 void DriveForward::End() {
-	Robot::drivetrain->DriveOnHeading(0.0);
+	Robot::drivetrain->DriveOnHeading(0.0,0.0);
 	puts("drive forward ended");
 }
 void DriveForward::Interrupted() {

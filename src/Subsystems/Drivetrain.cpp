@@ -40,16 +40,18 @@ Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
 void Drivetrain::ResetHeading() {
 	driveGyro->Reset();
 }
-double Drivetrain::CorrectionAngle() {
+double Drivetrain::CorrectionAngle(double correctionConstant) {
 	//TODO: code to detect gyroscope failure + fall-back mode (hard-coded constants)
 	if(SmartDashboard::GetBoolean("autonUseGyro")){
 		double gyroAngle = driveGyro->GetAngle();
-		if(fabs(gyroAngle) < 3){
-			return -0.02 * gyroAngle;
-		}
-		else {
-			printf("gyro error too high");
-		}
+//		if(fabs(gyroAngle) < 3){
+			printf("gyroAngle: %f\n",gyroAngle);
+			return -correctionConstant * gyroAngle;
+			//TODO: refactor
+//		}
+//		else {
+//			printf("gyro error too high");
+//		}
 	}
 	else {
 		printf("not using gyroscope");
@@ -57,8 +59,8 @@ double Drivetrain::CorrectionAngle() {
 	return 0;
 
 }
-void Drivetrain::DriveOnHeading(double velocity) {
-	RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle());
+void Drivetrain::DriveOnHeading(double velocity, double correctionConstant) {
+	RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle(correctionConstant));
 }
 void Drivetrain::toggleFastMode() {
 	fastMode = !fastMode;

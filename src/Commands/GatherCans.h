@@ -22,13 +22,14 @@
  */
 class GatherCans: public CommandGroup {
 public:	
-	GatherCans(int autonNumber);
+	GatherCans(int autonNumber, double autonForwardSpeed, double autonJerkSpeed, double autonTimeout, double autonDriveBackSpeed, double autonRotateTime, double autonRotateSpeed, double autonDriveBackTime);
 	bool hasResetLift;
 	void auton1();
 	void auton2();
 	void auton3();
 	void auton4();
 	void auton5();
+	double autonForwardSpeed, autonJerkSpeed, autonTimeout, autonDriveBackSpeed, autonRotateTime,autonRotateSpeed, autonDriveBackTime;
 
 };
 

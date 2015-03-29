@@ -7,8 +7,16 @@
 #include "timedDrive.h"
 #include "ResetLift.h"
 
-GatherCans::GatherCans(int autonNumber) {
+GatherCans::GatherCans(int autonNumber, double autonForwardSpeed, double autonJerkSpeed, double autonTimeout, double autonDriveBackSpeed, double autonRotateTime, double autonRotateSpeed, double autonDriveBackTime) {
 //	autonNumber = 1;
+	this->autonForwardSpeed = autonForwardSpeed;
+	this->autonJerkSpeed = autonJerkSpeed;
+	this->autonTimeout = autonTimeout;
+	this->autonDriveBackSpeed = autonDriveBackSpeed;
+	this->autonRotateTime = autonRotateTime;
+	this->autonRotateSpeed = autonRotateSpeed;
+	this->autonDriveBackTime = autonDriveBackTime;
+
 	switch(autonNumber){
 		case 2:
 			auton2();
@@ -28,15 +36,27 @@ GatherCans::GatherCans(int autonNumber) {
 	}
 }
 
+//void GatherCans::auton1(){
+//	Robot::eagleWings->wingRotater->Set(0);
+//	AddParallel(new ResetLift());
+//	AddSequential(new DriveForward(6,0.25));
+////	AddSequential(new AlignWithStep());
+//	AddSequential(new RotateWings(0.2,2));
+//	AddSequential(new AutonJerky());
+//	AddSequential(new BackupToAutonZone());
+////	AddSequential(new RotateWings(-.2,.4));
+//}
+//commented out to test auton.
 void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
-	AddParallel(new ResetLift());
-	AddSequential(new DriveForward(6,0.25));
-//	AddSequential(new AlignWithStep());
-	AddSequential(new RotateWings(0.2,2));
+//	AddParallel(new ResetLift());
+//	AddSequential(new DriveForward(autonTimeout,autonForwardSpeed));
+	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime));
+	AddParallel(new RotateWings(.3,4));
 	AddSequential(new AutonJerky());
 	AddSequential(new BackupToAutonZone());
-//	AddSequential(new RotateWings(-.2,.4));
+
+
 }
 void GatherCans::auton2(){
 	//drive forward

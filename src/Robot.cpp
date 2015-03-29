@@ -95,6 +95,18 @@ void Robot::RobotInit() {
 	stopLift = new RunLift(0);
 	//TODO: add code to ensure gyroscope has initialized
 	RobotMap::drivetraindriveGyro->InitGyro();	//probably takes 10 seconds
+	//auton testing code...3/28
+	SmartDashboard::PutNumber("autonForwardSpeed", .4);
+	SmartDashboard::PutNumber("autonJerkSpeed", 1);
+	SmartDashboard::PutNumber("autonTimeout", 5);
+	SmartDashboard::PutNumber("autonDriveBackSpeed", .6);
+	SmartDashboard::PutNumber("autonRotateTime", 2);
+	SmartDashboard::PutNumber("autonRotateSpeed", .2);
+	SmartDashboard::PutNumber("autonDriveBackTime", 3);
+	SmartDashboard::PutNumber("BackupCorrectionConstant", 0.8);
+	SmartDashboard::PutNumber("AutonJerkyCorrectionConstant", 0.8);
+	SmartDashboard::PutNumber("DriveForwardCorrectionConstant", 0.02);
+
 	startDiagnosticLogging();
 	SetupRobot();
 }
@@ -124,15 +136,22 @@ void Robot::DisabledPeriodic() {
 }
 void Robot::AutonomousInit() {
 		int autonNumber = SmartDashboard::GetNumber("autonNumber");
+		double autonForwardSpeed = SmartDashboard::GetNumber("autonForwardSpeed");
+		double autonJerkSpeed = SmartDashboard::GetNumber("autonJerkSpeed");
+		double autonTimeout = SmartDashboard::GetNumber("autonTimeout");
+		double autonDriveBackSpeed = SmartDashboard::GetNumber("autonDriveBackSpeed");
+		double autonRotateTime = SmartDashboard::GetNumber("autonRotateTime");
+		double autonRotateSpeed = SmartDashboard::GetNumber("autonRotateSpeed");
+		double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime");
 	//	DashboardPrintf("autonNumber","%d", autonNumber);
 //	int autonNumber = 1;
-	autonomousCommand = new GatherCans(autonNumber);
+	autonomousCommand = new GatherCans(autonNumber,  autonForwardSpeed,  autonJerkSpeed,  autonTimeout,  autonDriveBackSpeed,  autonRotateTime,  autonRotateSpeed,  autonDriveBackTime);
 	autonomousCommand->Start();
 }
 
 void Robot::AutonomousPeriodic() {
 	Scheduler::GetInstance()->Run();
-	//	logRow();
+		logRow();
 }
 
 void Robot::TeleopInit() {

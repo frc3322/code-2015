@@ -29,7 +29,7 @@ void timedDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void timedDrive::Execute() {
-	Robot::drivetrain->DriveOnHeading(velocity);
+	Robot::drivetrain->DriveOnHeading(velocity, 0.02);	//TODO:
 }
 
 // Make this return true when this Command no longer needs to run execute()
