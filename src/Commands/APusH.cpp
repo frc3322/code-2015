@@ -25,7 +25,7 @@ void APusH::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void APusH::Execute() {
-	Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
+//	Robot::lift->pusher->Set(DoubleSolenoid::kReverse);
 }
 
 // Make this return true when this Command no longer needs to run execute()
