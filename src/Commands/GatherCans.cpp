@@ -49,8 +49,8 @@ GatherCans::GatherCans(int autonNumber, double autonForwardSpeed, double autonJe
 //commented out to test auton.
 void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
-//	AddParallel(new ResetLift());
-//	AddSequential(new DriveForward(autonTimeout,autonForwardSpeed));
+	AddParallel(new ResetLift());
+	AddSequential(new DriveForward(autonTimeout,autonForwardSpeed));
 	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime));
 	AddParallel(new RotateWings(.3,4));
 	AddSequential(new AutonJerky());

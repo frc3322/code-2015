@@ -28,7 +28,7 @@ void DeployAligner::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void DeployAligner::Execute() {
 	Robot::aligner->deploy->Set(DoubleSolenoid::kForward);
-	Robot::aligner->spinner->Set(-0.3);
+	Robot::aligner->spinner->Set(-0.6);
 }
 
 // Make this return true when this Command no longer needs to run execute()

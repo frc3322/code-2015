@@ -36,7 +36,7 @@ void ResetLift::Execute() {
 	}
 	else
 		Robot::lift->pidController->Enable();
-		Robot::lift->pidController->SetSetpoint(-221);
+		Robot::lift->pidController->SetSetpoint(-287);
 		Robot::lift->currentHookIndex = 0;
 }
 

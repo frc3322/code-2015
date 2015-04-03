@@ -27,7 +27,7 @@ void RunConveyor::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void RunConveyor::Execute() {
-	Robot::canStashinator->conveyor->Set(-0.9);
+	Robot::canStashinator->conveyor->Set(-1);
 }
 
 // Make this return true when this Command no longer needs to run execute()

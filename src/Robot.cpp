@@ -106,12 +106,12 @@ void Robot::RobotInit() {
 	//auton testing code...3/28
 	SmartDashboard::PutNumber("autonForwardSpeed", .4);
 	SmartDashboard::PutNumber("autonJerkSpeed", 1);
-	SmartDashboard::PutNumber("autonTimeout", 5);
+	SmartDashboard::PutNumber("autonTimeout", 2);
 	SmartDashboard::PutNumber("autonDriveBackSpeed", .6);
 	SmartDashboard::PutNumber("autonRotateTime", 2);
 	SmartDashboard::PutNumber("autonRotateSpeed", .2);
-	SmartDashboard::PutNumber("autonDriveBackTime", 3);
-	SmartDashboard::PutNumber("BackupCorrectionConstant", 0.8);
+	SmartDashboard::PutNumber("autonDriveBackTime", 3.25);
+	SmartDashboard::PutNumber("BackupCorrectionConstant", 0.3);
 	SmartDashboard::PutNumber("AutonJerkyCorrectionConstant", 0.8);
 	SmartDashboard::PutNumber("DriveForwardCorrectionConstant", 0.02);
 	startDiagnosticLogging();
@@ -138,6 +138,8 @@ void Robot::DisabledPeriodic() {
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
+	lightPattern[0] = 0;
+	i2c->Transaction(lightPattern,1,NULL,0);
 	logRow();
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
@@ -167,6 +169,8 @@ void Robot::TeleopInit() {
 	//TODO: put this in a reset method that is shared with autoninit
 	RobotMap::drivetraindriveGyro->Reset();
 	SmartDashboard::GetNumber("autonNumber");
+	lightPattern[0] = 1;
+	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kReverse);
 //	gearDown->Start();
 //	Robot::lift->limitSwitch->DisableInterrupts();
 }
@@ -213,6 +217,8 @@ LiftState Robot::getLiftState() {
 }
 
 void Robot::TeleopPeriodic() {
+	lightPattern[0] = 3;
+	i2c->Transaction(lightPattern,1,NULL,0);
 	Scheduler::GetInstance()->Run();
 	logRow();
 	SmartDashboard::PutBoolean("isOnTarget", Robot::lift->pidController->OnTarget());
@@ -227,14 +233,13 @@ void Robot::TeleopPeriodic() {
 	Robot::drivetrain->DriveTeleop(Robot::driverStick->GetX(),Robot::driverStick->GetY(),
 			Robot::driverStick->GetRawAxis(4));
 	if(Robot::driverStick->GetX() > .3){
-		lightPattern[1] = 1;
-		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 1;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 	}
 	else if(Robot::driverStick->GetX() < -.3){
-		lightPattern[1] = 0;
-		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 0;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 	}
-
 	LiftState liftState = getLiftState();
 	switch (liftState) {
 	case RaisingTote:
@@ -243,9 +248,12 @@ void Robot::TeleopPeriodic() {
 		raiseLift->Cancel();
 		lowerLift->Cancel();
 		lowerOneTote->Cancel();
-		raiseOneTote->Start();
-		lightPattern[1] = 2;
+		lightPattern[0] = 1;
 		i2c->Transaction(lightPattern,1,NULL,0);
+		raiseOneTote->Start();
+
+//		lightPattern[1] = 2;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case LoweringTote:
 		resetLift->Cancel();
@@ -254,8 +262,10 @@ void Robot::TeleopPeriodic() {
 		lowerLift->Cancel();
 		raiseOneTote->Cancel();
 		lowerOneTote->Start();
-		lightPattern[1] = 3;
+		lightPattern[0] = 2;
 		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 3;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ManualRaisingLift:
 		resetLift->Cancel();
@@ -264,8 +274,10 @@ void Robot::TeleopPeriodic() {
 		raiseOneTote->Cancel();
 		lowerOneTote->Cancel();
 		raiseLift->Start();
-		lightPattern[1] = 4;
+		lightPattern[0] = 1;
 		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 4;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ManualLoweringLift:
 		resetLift->Cancel();
@@ -274,8 +286,10 @@ void Robot::TeleopPeriodic() {
 		lowerOneTote->Cancel();
 		raiseLift->Cancel();
 		lowerLift->Start();
-		lightPattern[1] = 5;
+		lightPattern[0] = 2;
 		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 5;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ResettingLift:
 		lift->pidController->Disable();
@@ -285,8 +299,8 @@ void Robot::TeleopPeriodic() {
 		lowerOneTote->Cancel();
 		raiseOneTote->Cancel();
 		resetLift->Start(); //starts the command that catches the limit switch
-		lightPattern[1] = 6;
-		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 6;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case LiftStopped:
 		resetLift->Cancel();
@@ -295,10 +309,13 @@ void Robot::TeleopPeriodic() {
 		raiseLift->Cancel();
 		lowerLift->Cancel();
 		stopLift->Start();
-		lightPattern[1] = 7;
+		lightPattern[0] = 3;
 		i2c->Transaction(lightPattern,1,NULL,0);
+//		lightPattern[1] = 7;
+//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	default:
+
 		;
 	}
 	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
@@ -332,17 +349,23 @@ void Robot::TeleopPeriodic() {
 		aligner->spinner->Set(0);
 	}
 //
-	if(driverStick->GetRawButton(XBOX::XBUTTON) && time - conveyorTime >= 0.5){
-		if (this->conveyorIsRunning){
-			Robot::stopConveyor->Start();
-		}
-		else {
-			Robot::runConveyor->Start();
-		}
-		conveyorIsRunning = !conveyorIsRunning;
-		conveyorTime = time;
-	}
+//	if(driverStick->GetRawButton(XBOX::XBUTTON) && time - conveyorTime >= 0.5){
+//		if (this->conveyorIsRunning){
+//			Robot::stopConveyor->Start();
+//		}
+//		else {
+//			Robot::runConveyor->Start();
+//		}
+//		conveyorIsRunning = !conveyorIsRunning;
+//		conveyorTime = time;
+//	}
 
+	if(driverStick->GetRawButton(XBOX::XBUTTON)){
+		Robot::runConveyor->Start();
+	}
+	else{
+		Robot::stopConveyor->Start();
+	}
 	if(driverStick->GetRawButton(XBOX::BBUTTON) && time - raiseStashTime >= 0.5){
 		if(this->canStasheratorUp){
 			Robot::raiseStash->Run();
