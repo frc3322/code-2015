@@ -39,7 +39,6 @@ bool RunLift::IsFinished() {
 // Called once after isFinished returns true
 void RunLift::End() {
 	Robot::lift->speedController1->Set(0);
-	printf("\n\n\n\n\nend");
 }
 
 // Called when another command which requires one or more of the same

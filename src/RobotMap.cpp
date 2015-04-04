@@ -78,6 +78,7 @@ void RobotMap::init() {
 	lw->AddActuator("Lift", "Speed Controller 1", (Talon*) liftSpeedController1);
 	
 	liftencoder = new Encoder(2, 3, false, Encoder::k4X);
+		liftencoder->SetSamplesToAverage(1);
 	lw->AddSensor("Lift", "encoder", liftencoder);
 	liftencoder->SetDistancePerPulse(1.0);
         liftencoder->SetPIDSourceParameter(Encoder::kRate);

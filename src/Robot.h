@@ -52,7 +52,7 @@
 #include "Subsystems/CanStashinator.h"
 
 enum LiftState { RaisingTote, LoweringTote, ManualRaisingLift, ManualLoweringLift,
-	LiftStopped, LiftRunning, ResettingLift, ShiftingToHighGear, ShiftingToLowGear};
+	LiftStopped, LiftRunning, ResettingLift, ShiftingToHighGear, ShiftingToLowGear, ToContainerHook};
 
 class Robot : public IterativeRobot {
 public:

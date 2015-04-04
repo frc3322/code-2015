@@ -37,7 +37,7 @@ int Lift::getCurrentPosition() {
 }
 int Lift::previousPosition() {
 	int currentEncoderValue = this->encoder->Get();
-	int allowedError = 40;
+	int allowedError = 20;
 	int maxHookIndex = hookPositions.size() - 1;
 	for(int i = maxHookIndex; i >= 0; i--){
 		if(currentEncoderValue - allowedError > hookPositions[i]){
@@ -50,7 +50,7 @@ int Lift::previousPosition() {
 }
 int Lift::nextPosition() {
 	int currentEncoderValue = this->encoder->Get();
-	int allowedError = 40;
+	int allowedError = 170;
 	int nextIndex = -1;
 	for(int i = 0; i < hookPositions.size(); i++) {
 		if (currentEncoderValue + allowedError < hookPositions[i]) {

@@ -21,15 +21,29 @@ RaiseOneTote::RaiseOneTote() {
 
 // Called just before this Command runs the first time
 void RaiseOneTote::Initialize() {
-
+	wentDown = false;
+	downTime = 0;
+	isFinished = false;
 }
-
 // Called repeatedly when this Command is scheduled to run
 void RaiseOneTote::Execute() {
 //	Robot::lift->speedController1->Set(.5);
-	Robot::lift->pidController->Enable();
-	printf("raise one tote executing");
-	Robot::lift->indexUp();
+	if(!wentDown || downTime - Timer::GetFPGATimestamp()>=-.17){
+		if(!wentDown){
+			isFinished = false;
+			downTime = Timer::GetFPGATimestamp();
+			Robot::lift->pidController->Disable();
+			wentDown = true;
+		}
+		Robot::lift->speedController1->Set(-.3);
+		printf("down!");
+	}
+	else{
+		Robot::lift->pidController->Enable();
+		Robot::lift->indexUp();
+		isFinished = true;
+	}
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -37,13 +51,16 @@ bool RaiseOneTote::IsFinished() {
 	//this is a hack solution
 	//we want this:
 	//return false;
-	return true;
+	return isFinished;
 //			Robot::lift->speedController1->Get() < .01 &&
 //			Robot::lift->pidController->GetSetpoint() - Robot::lift->encoder->Get() < 20; //.5 inch margin of error
+
 }
 
 // Called once after isFinished returns true
 void RaiseOneTote::End() {
+	wentDown = false;
+
 }
 
 // Called when another command which requires one or more of the same

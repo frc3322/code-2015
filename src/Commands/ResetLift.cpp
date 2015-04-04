@@ -53,6 +53,7 @@ void ResetLift::End() {
 	Robot::lift->speedController1->Set(0);
 	if(Robot::RobotBase::getInstance().IsAutonomous()){
 		Robot::lift->encoder->Reset();
+		isFinished = false;
 	}
 //	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kForward);
 }

@@ -21,18 +21,15 @@ PIDLift::PIDLift() {
 
 // Called just before this Command runs the first time
 void PIDLift::Initialize() {
-//	test = new PIDController()
-	printf("pid command init");
-
+//	liftPIDController = new PIDController(Robot::oi->p, Robot::oi->i, Robot::oi->d, Robot::lift->encoder, Robot::lift->speedController1);
+//	liftPIDController->SetSetpoint(200);
+//	liftPIDController->Disable();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void PIDLift::Execute() {
-	liftPIDController = new PIDController(Robot::oi->p, Robot::oi->i, Robot::oi->d, Robot::lift->encoder, Robot::lift->speedController1);
-	liftPIDController->Enable();
-	printf("p%f", Robot::oi->p);
-	liftPIDController->SetSetpoint(200);
-	printf("pid command execute");
+//	liftPIDController->Enable();
+
 	
 }
 
@@ -43,6 +40,9 @@ bool PIDLift::IsFinished() {
 
 // Called once after isFinished returns true
 void PIDLift::End() {
+//	liftPIDController->Disable();
+//	delete liftPIDController;
+//	liftPIDController = NULL;
 	
 }
 
