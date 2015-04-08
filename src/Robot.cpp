@@ -139,7 +139,8 @@ void Robot::DisabledPeriodic() {
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
-	lightPattern[0] = Robot::lift->encoder->Get();
+	int toSend = (int)(0 + (42-0) * (Robot::lift->encoder->Get() - - 173) / (1822 - -173));
+	lightPattern[0] = toSend;
 	i2c->Transaction(lightPattern,1,NULL,0);
 	logRow();
 	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
@@ -161,6 +162,10 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
 	Scheduler::GetInstance()->Run();
+	Scheduler::GetInstance()->Run();
+	int toSend = (int)(0 + (42-0) * (Robot::lift->encoder->Get() - - 173) / (1822 - -173));
+	lightPattern[0] = toSend;
+	i2c->Transaction(lightPattern,1,NULL,0);
 		logRow();
 }
 
@@ -223,7 +228,6 @@ LiftState Robot::getLiftState() {
 
 void Robot::TeleopPeriodic() {
 	int toSend = (int)(0 + (42-0) * (Robot::lift->encoder->Get() - - 173) / (1822 - -173));
-	printf("value!! %d", toSend);
 	lightPattern[0] = toSend;
 	i2c->Transaction(lightPattern,1,NULL,0);
 	Scheduler::GetInstance()->Run();
