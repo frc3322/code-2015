@@ -47,7 +47,7 @@ void GatherCans::auton0(){
 	AddSequential(new RotateWings(0.25,2));
 
 	//	AddSequential(new AutonJerky());
-	AddParallel(new RotateWings(0.4,6));
+//	AddParallel(new RotateWings(0.4,6));
 	AddSequential(new BackupToAutonZone());
 //	AddSequential(new RotateWings(-.2,.4));
 }
@@ -62,7 +62,7 @@ void GatherCans::auton1(){
 	AddParallel(new DriveForward(autonRotateTime,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
 	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime));
 
-	AddParallel(new RotateWings(.3,4));
+//	AddParallel(new RotateWings(.3,4));
 //	AddSequential(new AutonJerky());
 
 	AddSequential(new BackupToAutonZone());
