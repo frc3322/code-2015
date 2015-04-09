@@ -117,7 +117,8 @@ void Robot::RobotInit() {
 	SmartDashboard::PutNumber("BackupCorrectionConstant", 0.3);
 	SmartDashboard::PutNumber("AutonJerkyCorrectionConstant", 0.8);
 	SmartDashboard::PutNumber("DriveForwardCorrectionConstant", 0.02);
-	SmartDashboard::PutNumber("Match Time Left", NULL);
+	SmartDashboard::PutNumber("Match Time Left", 0);
+	SmartDashboard::PutBoolean("Gyro Disabled by delta",false);
 	startDiagnosticLogging();
 	SetupRobot();
 }
@@ -156,8 +157,11 @@ void Robot::AutonomousInit() {
 	double autonRotateTime = SmartDashboard::GetNumber("autonRotateTime");
 	double autonRotateSpeed = SmartDashboard::GetNumber("autonRotateSpeed");
 	double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime");
+	Robot::drivetrain->previousGyroValue = -99;
+	Robot::drivetrain->gyroDisabled = false;
 	autonomousCommand = new GatherCans(autonNumber,  autonForwardSpeed,  autonJerkSpeed,  autonTimeout,  autonDriveBackSpeed,  autonRotateTime,  autonRotateSpeed,  autonDriveBackTime);
 	autonomousCommand->Start();
+
 }
 void Robot::AutonomousPeriodic() {
 	Scheduler::GetInstance()->Run();

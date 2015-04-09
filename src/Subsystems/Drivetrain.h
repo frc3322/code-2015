@@ -41,6 +41,8 @@ public:
 	double yScalar;
 	double rotationScalar;
 	double correctionAngle;
+	double previousGyroValue;
+	bool gyroDisabled;
 	bool quadraticScaling;
 	bool fastMode;
 	bool fastModeMultiplier;
