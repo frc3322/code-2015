@@ -44,7 +44,7 @@ double Drivetrain::CorrectionAngle(double correctionConstant) {
 	//TODO: code to detect gyroscope failure + fall-back mode (hard-coded constants)
 	if(SmartDashboard::GetBoolean("autonUseGyro")){
 		double gyroAngle = driveGyro->GetAngle();
-		if(fabs(gyroAngle) < 10){
+		if(fabs(gyroAngle) < 20){
 			printf("gyroAngle: %f\n",gyroAngle);
 			SmartDashboard::PutBoolean("gyroIgnored",false);
 			return -0.02 * gyroAngle;
