@@ -23,13 +23,13 @@ AutonJerky::AutonJerky() {
 // Called just before this Command runs the first time
 void AutonJerky::Initialize() {
 	startTime = Timer::GetFPGATimestamp();
-	durationTime = .5;
+	durationTime = 1.5;
 //	DriveForward::Command::Cancel();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void AutonJerky::Execute() {
-	Robot::drivetrain->DriveOnHeading(1, fabs(SmartDashboard::GetNumber("AutonJerkyCorrectionConstant")));	//TODO: put on smart dashboard
+	Robot::drivetrain->DriveOnHeading(.85, fabs(SmartDashboard::GetNumber("AutonJerkyCorrectionConstant")));	//TODO: put on smart dashboard
 	//SmartDashboard::GetNumber();
 }
 

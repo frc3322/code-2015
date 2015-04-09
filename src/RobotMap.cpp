@@ -118,9 +118,9 @@ void RobotMap::init() {
 	liftencoder->SetPIDSourceParameter(Encoder::PIDSourceParameter::kDistance);
 	liftPidController = new PIDController(0.01, 0.00005, 0.0001, liftencoder, liftSpeedController1);
 	lw->AddActuator("Lift", "pidController", liftPidController);
-	liftDetectorator1 = new DigitalInput(8);
+	liftDetectorator1 = new DigitalInput(6);
 	lw->AddActuator("Lift", "liftDetectorator1", liftDetectorator1);
-	liftDetectorator2 = new DigitalInput(9);
+	liftDetectorator2 = new DigitalInput(7);
 	lw->AddActuator("Lift", "liftDetectorator2", liftDetectorator2);
 
 

@@ -40,6 +40,7 @@ public:
 	double xScalar;
 	double yScalar;
 	double rotationScalar;
+	double correctionAngle;
 	bool quadraticScaling;
 	bool fastMode;
 	bool fastModeMultiplier;

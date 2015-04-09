@@ -117,6 +117,7 @@ void Robot::RobotInit() {
 	SmartDashboard::PutNumber("BackupCorrectionConstant", 0.3);
 	SmartDashboard::PutNumber("AutonJerkyCorrectionConstant", 0.8);
 	SmartDashboard::PutNumber("DriveForwardCorrectionConstant", 0.02);
+	SmartDashboard::PutNumber("Match Time Left", NULL);
 	startDiagnosticLogging();
 	SetupRobot();
 }
@@ -145,53 +146,41 @@ void Robot::DisabledPeriodic() {
 	lightPattern[0] = toSend;
 	i2c->Transaction(lightPattern,1,NULL,0);
 	logRow();
-	autonUseGyro = SmartDashboard::GetBoolean("autonUseGyro");
 }
 void Robot::AutonomousInit() {
-		int autonNumber = SmartDashboard::GetNumber("autonNumber");
-		double autonForwardSpeed = SmartDashboard::GetNumber("autonForwardSpeed");
-		double autonJerkSpeed = SmartDashboard::GetNumber("autonJerkSpeed");
-		double autonTimeout = SmartDashboard::GetNumber("autonTimeout");
-		double autonDriveBackSpeed = SmartDashboard::GetNumber("autonDriveBackSpeed");
-		double autonRotateTime = SmartDashboard::GetNumber("autonRotateTime");
-		double autonRotateSpeed = SmartDashboard::GetNumber("autonRotateSpeed");
-		double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime");
-	//	DashboardPrintf("autonNumber","%d", autonNumber);
-//	int autonNumber = 1;
+	int autonNumber = SmartDashboard::GetNumber("autonNumber");
+	double autonForwardSpeed = SmartDashboard::GetNumber("autonForwardSpeed");
+	double autonJerkSpeed = SmartDashboard::GetNumber("autonJerkSpeed");
+	double autonTimeout = SmartDashboard::GetNumber("autonTimeout");
+	double autonDriveBackSpeed = SmartDashboard::GetNumber("autonDriveBackSpeed");
+	double autonRotateTime = SmartDashboard::GetNumber("autonRotateTime");
+	double autonRotateSpeed = SmartDashboard::GetNumber("autonRotateSpeed");
+	double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime");
 	autonomousCommand = new GatherCans(autonNumber,  autonForwardSpeed,  autonJerkSpeed,  autonTimeout,  autonDriveBackSpeed,  autonRotateTime,  autonRotateSpeed,  autonDriveBackTime);
 	autonomousCommand->Start();
 }
-
 void Robot::AutonomousPeriodic() {
-	Scheduler::GetInstance()->Run();
 	Scheduler::GetInstance()->Run();
 	int toSend = (int)(0 + (42-0) * (Robot::lift->encoder->Get() - - 173) / (1822 - -173));
 	lightPattern[0] = toSend;
 	i2c->Transaction(lightPattern,1,NULL,0);
 		logRow();
 }
-
 void Robot::TeleopInit() {
+	teleopStartTime = Timer::GetFPGATimestamp();
 	if (autonomousCommand != NULL)
 		autonomousCommand->Cancel();
 	//TODO: put this in a reset method that is shared with autoninit
 	RobotMap::drivetraindriveGyro->Reset();
-	SmartDashboard::GetNumber("autonNumber");
 	lightPattern[0] = 1;
 	i2c->Transaction(lightPattern,1,NULL,0);
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kReverse);
-//	gearDown->Start();
-//	Robot::lift->limitSwitch->DisableInterrupts();
+	timeLeftInMatch = 135 - ( Timer::GetFPGATimestamp() - teleopStartTime);
+	SmartDashboard::PutNumber("Match Time Left",(int)(timeLeftInMatch));
 }
-
-//Jeanette:  I THINK if we get rid of the or isRunning
-//if a command needs PID it should enable it
-//if a command doesn't want PID it should disable it
-//otherwise, stop the lift if and only if PID is disabled /--
 bool Robot::isNewPress(double time1, double time2) {
 	return fabs(time1-time2) > .25;
 }
-
 LiftState Robot::getLiftState() {
 	double currentTime = Timer::GetFPGATimestamp();
 	if(driverStick->GetRawAxis(RIGHT_TRIGGER) > 0.5 || techStick->GetRawAxis(RIGHT_TRIGGER) > 0.5)
@@ -215,10 +204,6 @@ LiftState Robot::getLiftState() {
 	if(driverStick->GetRawButton(XBOX::ABUTTON) || techStick->GetRawButton(XBOX::ABUTTON))// || resetLift->IsRunning())
 		return ResettingLift;
 
-
-
-
-
 	if(resetLift->IsRunning() || raiseOneTote->IsRunning() || lowerOneTote->IsRunning())
 		return LiftRunning;
 	if(!Robot::lift->pidController->IsEnabled()){
@@ -232,6 +217,8 @@ void Robot::TeleopPeriodic() {
 	int toSend = (int)(0 + (42-0) * (Robot::lift->encoder->Get() - - 173) / (1822 - -173));
 	lightPattern[0] = toSend;
 	i2c->Transaction(lightPattern,1,NULL,0);
+	timeLeftInMatch = 135 - ( Timer::GetFPGATimestamp() - teleopStartTime);
+	SmartDashboard::PutNumber("Match Time Left",(int)(timeLeftInMatch));
 	Scheduler::GetInstance()->Run();
 	logRow();
 	SmartDashboard::PutBoolean("isOnTarget", Robot::lift->pidController->OnTarget());
@@ -246,19 +233,7 @@ void Robot::TeleopPeriodic() {
 	SmartDashboard::PutNumber("Hook Number ", lift->currentHookIndex);
 	Robot::drivetrain->DriveTeleop(Robot::driverStick->GetX(),Robot::driverStick->GetY(),
 			Robot::driverStick->GetRawAxis(4));
-	if(Robot::driverStick->GetX() > .3){
-//		lightPattern[1] = 9;
-//		i2c->Transaction(lightPattern,1,NULL,0);
-	}
-	else if(Robot::driverStick->GetX() < -.3){
-//		lightPattern[1] = 7;
-//		i2c->Transaction(lightPattern,1,NULL,0);
-	}
-	else{
-//		lightPattern[1] = 8;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 
-	}
 	LiftState liftState = getLiftState();
 	switch (liftState) {
 	case RaisingTote:
@@ -267,12 +242,8 @@ void Robot::TeleopPeriodic() {
 		raiseLift->Cancel();
 		lowerLift->Cancel();
 		lowerOneTote->Cancel();
-//		lightPattern[0] = 1;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		raiseOneTote->Start();
 
-//		lightPattern[1] = 2;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case LoweringTote:
 		resetLift->Cancel();
@@ -281,10 +252,6 @@ void Robot::TeleopPeriodic() {
 		lowerLift->Cancel();
 		raiseOneTote->Cancel();
 		lowerOneTote->Start();
-//		lightPattern[0] = 2;
-//		i2c->Transaction(lightPattern,1,NULL,0);
-//		lightPattern[1] = 3;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ManualRaisingLift:
 		resetLift->Cancel();
@@ -293,10 +260,6 @@ void Robot::TeleopPeriodic() {
 		raiseOneTote->Cancel();
 		lowerOneTote->Cancel();
 		raiseLift->Start();
-//		lightPattern[0] = 1;
-//		i2c->Transaction(lightPattern,1,NULL,0);
-//		lightPattern[1] = 4;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ManualLoweringLift:
 		resetLift->Cancel();
@@ -305,10 +268,6 @@ void Robot::TeleopPeriodic() {
 		lowerOneTote->Cancel();
 		raiseLift->Cancel();
 		lowerLift->Start();
-//		lightPattern[0] = 2;
-//		i2c->Transaction(lightPattern,1,NULL,0);
-//		lightPattern[1] = 5;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ResettingLift:
 		lift->pidController->Disable();
@@ -318,8 +277,6 @@ void Robot::TeleopPeriodic() {
 		lowerOneTote->Cancel();
 		raiseOneTote->Cancel();
 		resetLift->Start(); //starts the command that catches the limit switch
-//		lightPattern[1] = 6;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case LiftStopped:
 		resetLift->Cancel();
@@ -328,10 +285,6 @@ void Robot::TeleopPeriodic() {
 		raiseLift->Cancel();
 		lowerLift->Cancel();
 		stopLift->Start();
-//		lightPattern[0] = 3;
-//		i2c->Transaction(lightPattern,1,NULL,0);
-//		lightPattern[1] = 7;
-//		i2c->Transaction(lightPattern,1,NULL,0);
 		break;
 	case ToContainerHook:
 		resetLift->Cancel();
@@ -340,53 +293,43 @@ void Robot::TeleopPeriodic() {
 		lowerLift->Cancel();
 		Robot::lift->pidController->SetSetpoint(-1789);
 		break;
-
 	default:
-
-		;
+		break;
 	}
 	if(techStick->GetRawButton(XBOX::YBUTTON) || driverStick->GetRawButton(XBOX::YBUTTON)){
 		lift->toggleGear();
 	}
+	SmartDashboard::PutBoolean("liftLimitSwitch", Robot::lift->limitSwitch->Get());
 	SmartDashboard::PutBoolean("resetLiftIsRunning", resetLift->IsRunning());
-		if(techStick->GetRawButton(XBOX::START)){
-			rotateWingsBackward->Cancel();
-			rotateWingsForward->Start();
-		}else if(techStick->GetRawButton(XBOX::BACK)){
-			rotateWingsForward->Cancel();
-			rotateWingsBackward->Start();
-		}else {
-			rotateWingsBackward->Cancel();
-			rotateWingsForward->Cancel();
-			eagleWings->wingRotater->Set(0);
-		}
+	if(techStick->GetRawButton(XBOX::START)){
+		rotateWingsBackward->Cancel();
+		rotateWingsForward->Start();
+	}
+	else if(techStick->GetRawButton(XBOX::BACK)){
+		rotateWingsForward->Cancel();
+		rotateWingsBackward->Start();
+	}
+	else {
+		rotateWingsBackward->Cancel();
+		rotateWingsForward->Cancel();
+		eagleWings->wingRotater->Set(0);
+	}
+	if(techStick->GetRawButton(XBOX::XBUTTON)){
+		eagleWings->leftWinch->Set(.4);
+	}
+	else {
+		eagleWings->leftWinch->Set(0);
+	}
 
-		if(techStick->GetRawButton(XBOX::XBUTTON)){
-			eagleWings->leftWinch->Set(.4);
-		}else {
-			eagleWings->leftWinch->Set(0);
-		}
-
-		if(techStick->GetRawButton(XBOX::BBUTTON)){
-			eagleWings->rightWinch->Set(.4);
-		}else {
-			eagleWings->rightWinch->Set(0);
-		}
+	if(techStick->GetRawButton(XBOX::BBUTTON)){
+		eagleWings->rightWinch->Set(.4);
+	}
+	else {
+		eagleWings->rightWinch->Set(0);
+	}
 	if(techStick->GetRawButton(XBOX::RSTICKP)) {
 		aligner->spinner->Set(0);
 	}
-//
-//	if(driverStick->GetRawButton(XBOX::XBUTTON) && time - conveyorTime >= 0.5){
-//		if (this->conveyorIsRunning){
-//			Robot::stopConveyor->Start();
-//		}
-//		else {
-//			Robot::runConveyor->Start();
-//		}
-//		conveyorIsRunning = !conveyorIsRunning;
-//		conveyorTime = time;
-//	}
-
 	if(driverStick->GetRawButton(XBOX::XBUTTON)){
 		Robot::runConveyor->Start();
 	}
@@ -403,7 +346,6 @@ void Robot::TeleopPeriodic() {
 		canStasheratorUp = !canStasheratorUp;
 		raiseStashTime = time;
 	}
-
 	if(techStick->GetRawButton(XBOX::RBUMPER)){
 		deployAligner->Start();
 	}
@@ -411,9 +353,7 @@ void Robot::TeleopPeriodic() {
 		retractAligner->Start();
 	}
 }
-
 void Robot::TestPeriodic() {
 	lw->Run();
 }
-
 START_ROBOT_CLASS(Robot);

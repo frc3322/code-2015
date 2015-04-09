@@ -18,6 +18,9 @@ GatherCans::GatherCans(int autonNumber, double autonForwardSpeed, double autonJe
 	this->autonDriveBackTime = autonDriveBackTime;
 
 	switch(autonNumber){
+	case 1:
+		auton1();
+		break;
 		case 2:
 			auton2();
 			break;
@@ -31,38 +34,38 @@ GatherCans::GatherCans(int autonNumber, double autonForwardSpeed, double autonJe
 			auton5();
 			break;
 		default:
-			auton1();
+			auton0();
 			break;
 	}
 }
+void GatherCans::auton0(){
+	Robot::eagleWings->wingRotater->Set(0);
+	AddParallel(new ResetLift());
+	AddSequential(new DriveForward(6,0.25));
 
-//void GatherCans::auton1(){
-//	Robot::eagleWings->wingRotater->Set(0);
-//	AddParallel(new ResetLift());
-//	AddSequential(new DriveForward(6,0.25));
-////	AddSequential(new AlignWithStep());
-//	AddSequential(new RotateWings(0.2,2));
-//	AddSequential(new AutonJerky());
-//	AddSequential(new BackupToAutonZone());
-////	AddSequential(new RotateWings(-.2,.4));
-//}
-//commented out to test auton.
+	AddParallel(new DriveForward(2,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
+	AddSequential(new RotateWings(0.25,2));
+
+	//	AddSequential(new AutonJerky());
+	AddParallel(new RotateWings(0.4,6));
+	AddSequential(new BackupToAutonZone());
+//	AddSequential(new RotateWings(-.2,.4));
+}
+
 void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
-	AddSequential(new DriveForward(.3,1));
-
-	AddSequential(new DriveForward(autonTimeout - .3,autonForwardSpeed));
+//	AddSequential(new DriveForward(.2,1));
+	AddParallel(new RotateWings(-0.5,1));
+	AddSequential(new DriveForward(autonTimeout,autonForwardSpeed));
 
 	AddParallel(new DriveForward(autonRotateTime,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
 	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime));
 
 	AddParallel(new RotateWings(.3,4));
-	AddSequential(new AutonJerky());
+//	AddSequential(new AutonJerky());
 
 	AddSequential(new BackupToAutonZone());
-
-
 }
 void GatherCans::auton2(){
 	//drive forward

@@ -124,10 +124,11 @@ public:
 	double driveToggleTime;
 	double indexUpTime;
 	double indexDownTime;
-	bool autonUseGyro;
 	bool conveyorIsRunning = false;
 	bool canStasheratorUp = false;
 	uint8_t lightPattern[1];
+	double teleopStartTime;
+	double timeLeftInMatch;
 
 };
 #endif

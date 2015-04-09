@@ -49,7 +49,8 @@ int Lift::previousPosition() {
 	return hookPositions[currentHookIndex];
 }
 bool Lift::toteIsDetected(){
-	return liftDetectorator1 && liftDetectorator2;
+	return liftDetectorator1->Get() == false && liftDetectorator2->Get() == false;
+
 }
 int Lift::nextPosition() {
 	int currentEncoderValue = this->encoder->Get();

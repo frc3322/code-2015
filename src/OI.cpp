@@ -57,7 +57,7 @@ OI::OI() {
 	i = SmartDashboard::GetNumber("I",0);
 	d = SmartDashboard::GetNumber("D",0);
 	SmartDashboard::PutNumber("indexToteDistance",450);
-	SmartDashboard::PutNumber("autonNumber", 1);
+	SmartDashboard::PutNumber("autonNumber", 0);
 
 	//modular auton...
 	SmartDashboard::PutNumber("autonForwardSpeed", .4);

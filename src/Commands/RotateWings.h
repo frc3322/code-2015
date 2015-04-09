@@ -32,7 +32,6 @@ public:
 	bool hasSetAngle;
 	float setAngle;
 	float direction;
-	float durationTime;
 	float startTime;
 	float time;
 };
