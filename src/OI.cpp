@@ -58,7 +58,6 @@ OI::OI() {
 	d = SmartDashboard::GetNumber("D",0);
 	SmartDashboard::PutNumber("indexToteDistance",450);
 	SmartDashboard::PutNumber("autonNumber", 1);
-	SmartDashboard::PutNumber("backupTime", 2);
 
 	//modular auton...
 	SmartDashboard::PutNumber("autonForwardSpeed", .4);
@@ -67,7 +66,7 @@ OI::OI() {
 	SmartDashboard::PutNumber("autonDriveBackSpeed",.35);
 	SmartDashboard::PutNumber("autonRotateTime",2);
 	SmartDashboard::PutNumber("autonRotateSpeed",0.2);
-	SmartDashboard::PutNumber("autonDriveBackTime",5.25);
+	SmartDashboard::PutNumber("backupTime", 3.5);
 
 }
 

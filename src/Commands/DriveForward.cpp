@@ -26,7 +26,6 @@ bool DriveForward::IsFinished() {
 		hitStepAt = Timer::GetFPGATimestamp();
 		hasHitStep = true;
 	}
-
 	isReady = hasHitStep && hitStepAt - Timer::GetFPGATimestamp() >= 1;
 	return 	isReady || Timer::GetFPGATimestamp() > startTime + timeOut;
 }

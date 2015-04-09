@@ -61,9 +61,9 @@ double Drivetrain::CorrectionAngle(double correctionConstant) {
 
 }
 void Drivetrain::DriveOnHeading(double velocity, double correctionConstant) {
-	if(velocity>0){
-		correctionConstant = correctionConstant * correctionConstant;
-	}
+//	if(velocity > 0){
+//		correctionConstant = correctionConstant * correctionConstant;
+//	}
 	RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle(correctionConstant));
 }
 void Drivetrain::toggleFastMode() {

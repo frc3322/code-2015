@@ -9,6 +9,8 @@
 // it from being updated in the future.
 
 #include "AutonJerky.h"
+#include "DriveForward.h"
+#include "GatherCans.h"
 
 AutonJerky::AutonJerky() {
 	// Use requires() here to declare subsystem dependencies
@@ -22,7 +24,7 @@ AutonJerky::AutonJerky() {
 void AutonJerky::Initialize() {
 	startTime = Timer::GetFPGATimestamp();
 	durationTime = .5;
-
+//	DriveForward::Command::Cancel();
 }
 
 // Called repeatedly when this Command is scheduled to run

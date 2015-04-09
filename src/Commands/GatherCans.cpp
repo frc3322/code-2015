@@ -50,10 +50,16 @@ GatherCans::GatherCans(int autonNumber, double autonForwardSpeed, double autonJe
 void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
-	AddSequential(new DriveForward(autonTimeout,autonForwardSpeed));
+	AddSequential(new DriveForward(.3,1));
+
+	AddSequential(new DriveForward(autonTimeout - .3,autonForwardSpeed));
+
+	AddParallel(new DriveForward(autonRotateTime,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
 	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime));
+
 	AddParallel(new RotateWings(.3,4));
 	AddSequential(new AutonJerky());
+
 	AddSequential(new BackupToAutonZone());
 
 

@@ -48,6 +48,8 @@ public:
 	static DoubleSolenoid* alignerDeploy;
 	static SpeedController* alignerSpinner;
 	static PIDController* liftPidController;
+	static DigitalInput* liftDetectorator1;
+	static DigitalInput* liftDetectorator2;
 
 	static void init();
 };
