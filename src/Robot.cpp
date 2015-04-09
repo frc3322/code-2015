@@ -159,6 +159,7 @@ void Robot::AutonomousInit() {
 	double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime");
 	Robot::drivetrain->previousGyroValue = -99;
 	Robot::drivetrain->gyroDisabled = false;
+	SmartDashboard::PutBoolean("Gyro Disabled by delta", false);
 	autonomousCommand = new GatherCans(autonNumber,  autonForwardSpeed,  autonJerkSpeed,  autonTimeout,  autonDriveBackSpeed,  autonRotateTime,  autonRotateSpeed,  autonDriveBackTime);
 	autonomousCommand->Start();
 
