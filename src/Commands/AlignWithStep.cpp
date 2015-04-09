@@ -28,13 +28,11 @@ void AlignWithStep::Initialize() {
 	puts("align with step initialize");
 	FILE* file = fopen("/autonCalibrationData.txt", "r");
 	if(!file) {
-		printf("error: could not read calibration file\n");
 		finished = true;
 		return;
 	}
 	fscanf(file,"%f", &leftDistance);
 	fscanf(file,"%f", &rightDistance);
-	printf("left %f right %f\n", leftDistance, rightDistance);
 }
 
 // Called repeatedly when this Command is scheduled to run

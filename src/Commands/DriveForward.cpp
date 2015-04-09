@@ -19,7 +19,6 @@ void DriveForward::Initialize() {
 }
 void DriveForward::Execute() {
 	Robot::drivetrain->DriveOnHeading(-speed, fabs(SmartDashboard::GetNumber("DriveForwardCorrectionConstant")));	//TODO: put on smartbashboard
-	printf("acc x %f", Robot::stepDetectorator->accelerometer->GetX());
 }
 bool DriveForward::IsFinished() {
 	if(!hasHitStep && Robot::stepDetectorator->IsAtStep()){

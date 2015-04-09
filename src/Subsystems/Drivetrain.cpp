@@ -45,19 +45,14 @@ double Drivetrain::CorrectionAngle(double correctionConstant) {
 	if(SmartDashboard::GetBoolean("autonUseGyro")){
 		double gyroAngle = driveGyro->GetAngle();
 		if(fabs(gyroAngle) < 20){
-			printf("gyroAngle: %f\n",gyroAngle);
 			SmartDashboard::PutBoolean("gyroIgnored",false);
 			return -0.02 * gyroAngle;
 			//TODO: refactor
 		}
 		else {
-			printf("gyro error too high");
 			SmartDashboard::PutBoolean("gyroIgnored",true);
 			return 0;
 		}
-	}
-	else {
-		printf("not using gyroscope");
 	}
 	return 0;
 

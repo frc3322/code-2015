@@ -36,7 +36,6 @@ void RaiseOneTote::Execute() {
 			wentDown = true;
 		}
 		Robot::lift->speedController1->Set(-.3);
-		printf("down!");
 	}
 	else{
 		Robot::lift->pidController->Enable();
