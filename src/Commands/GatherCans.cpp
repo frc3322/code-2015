@@ -68,11 +68,20 @@ void GatherCans::auton1(){
 	AddSequential(new BackupToAutonZone());
 }
 void GatherCans::auton2(){
-	//drive forward
-	double duration = 2;
-	double speed = .3;
+	//super secret auton
+	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
-	AddSequential(new timedDrive(duration, speed));
+	AddSequential(new DriveForward(0.4,1));
+	AddParallel(new RotateWings(-.6,.15));
+	AddSequential(new DriveForward(.5,0.25));
+
+//	AddParallel(new DriveForward(2,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
+//	AddSequential(new RotateWings(0.25,2));
+
+	//	AddSequential(new AutonJerky());
+//	AddParallel(new RotateWings(0.4,6));
+//	AddSequential(new BackupToAutonZone());
+//	AddSequential(new RotateWings(-.2,.4));
 }
 void GatherCans::auton3(){
 	AddParallel(new ResetLift());

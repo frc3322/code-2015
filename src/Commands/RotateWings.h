@@ -12,9 +12,9 @@
 #ifndef ROTATEWINGS_H
 #define ROTATEWINGS_H
 
-
-#include "Commands/Subsystem.h"
+class RotateWings;
 #include "../Robot.h"
+#include "Commands/Subsystem.h"
 
 /**
  *
