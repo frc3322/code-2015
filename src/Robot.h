@@ -83,6 +83,7 @@ public:
 	Command* stopConveyor;
 	Command* raiseStash;
 	Command* lowerStash;
+	Command* modRotateWing;
 
 	static I2C* i2c;
 	static OI *oi;

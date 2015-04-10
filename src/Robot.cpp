@@ -118,6 +118,8 @@ void Robot::RobotInit() {
 	SmartDashboard::PutNumber("AutonJerkyCorrectionConstant", 0.8);
 	SmartDashboard::PutNumber("DriveForwardCorrectionConstant", 0.02);
 	SmartDashboard::PutNumber("Match Time Left", NULL);
+	SmartDashboard::PutNumber("RotateTestTime", 0.5);
+	SmartDashboard::PutNumber("RotateTestSpeed", 0.5);
 	startDiagnosticLogging();
 	SetupRobot();
 }
@@ -177,6 +179,9 @@ void Robot::TeleopInit() {
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kReverse);
 	timeLeftInMatch = 135 - ( Timer::GetFPGATimestamp() - teleopStartTime);
 	SmartDashboard::PutNumber("Match Time Left",(int)(timeLeftInMatch));
+
+	modRotateWing = new RotateWings(SmartDashboard::GetNumber("RotateTestSpeed"),
+	SmartDashboard::GetNumber("RotateTestTime"));
 }
 bool Robot::isNewPress(double time1, double time2) {
 	return fabs(time1-time2) > .25;
@@ -351,6 +356,9 @@ void Robot::TeleopPeriodic() {
 	}
 	else if(techStick->GetRawButton(XBOX::LBUMPER)){
 		retractAligner->Start();
+	}
+	if(techStick->GetRawButton(XBOX::LSTICKP)){
+		modRotateWing->Start();
 	}
 }
 void Robot::TestPeriodic() {
