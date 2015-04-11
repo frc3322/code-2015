@@ -72,20 +72,15 @@ void GatherCans::auton2(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
 	AddSequential(new DriveForward(0.4,1));
-	AddParallel(new RotateWings(-.6,.15));
+	AddParallel(new RotateWings(-.6,.15)); //clap on top of cans to thwart burglars...
 	AddSequential(new DriveForward(.5,0.25));
-
-//	AddParallel(new DriveForward(2,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
-//	AddSequential(new RotateWings(0.25,2));
-
-	//	AddSequential(new AutonJerky());
-//	AddParallel(new RotateWings(0.4,6));
-//	AddSequential(new BackupToAutonZone());
-//	AddSequential(new RotateWings(-.2,.4));
+	AddSequential(new AutonJerky()); //being used for waiting at the step.  Waits for 4.5 seconds, needs to be random 4 to 7 eventually.
+	AddSequential(new RotateWings(0.25,2));
+	AddSequential(new BackupToAutonZone());
 }
 void GatherCans::auton3(){
 	AddParallel(new ResetLift());
-	//do nothing....
+	//reset lift...
 }
 void GatherCans::auton4(){
 	Robot::eagleWings->wingRotater->Set(0);
