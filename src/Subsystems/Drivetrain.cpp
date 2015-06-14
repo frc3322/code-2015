@@ -46,7 +46,7 @@ double Drivetrain::CorrectionAngle(double correctionConstant) {
 		double gyroAngle = driveGyro->GetAngle();
 		if(fabs(gyroAngle) < 20){
 			SmartDashboard::PutBoolean("gyroIgnored",false);
-			return -0.02 * gyroAngle;
+			return -correctionConstant * gyroAngle;
 			//TODO: refactor
 		}
 		else {
@@ -60,12 +60,9 @@ double Drivetrain::CorrectionAngle(double correctionConstant) {
 void Drivetrain::DriveOnHeading(double velocity, double correctionConstant) {
 			//correct more for a greater angle going backward, less for a smaller angle.  NEEDS TEST
 		if(velocity>0){
-			double correctionValue = CorrectionAngle(correctionConstant) * CorrectionAngle(correctionConstant);
-			RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,correctionValue);
+			correctionConstant = correctionConstant * correctionConstant;
 		}
-		else{
-			RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle(correctionConstant));
-		}
+		RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle(correctionConstant));
 	}
 void Drivetrain::toggleFastMode() {
 	fastMode = !fastMode;

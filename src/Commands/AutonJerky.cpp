@@ -23,7 +23,7 @@ AutonJerky::AutonJerky() {
 // Called just before this Command runs the first time
 void AutonJerky::Initialize() {
 	startTime = Timer::GetFPGATimestamp();
-	durationTime = 4.5;
+	durationTime = 10;
 //	DriveForward::Command::Cancel();
 }
 

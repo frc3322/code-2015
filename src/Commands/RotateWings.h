@@ -23,7 +23,7 @@ class RotateWings;
  */
 class RotateWings: public Command {
 public:
-	RotateWings(float direction, float time);
+	RotateWings(float direction, float time,float wait);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
@@ -34,6 +34,7 @@ public:
 	float direction;
 	float startTime;
 	float time;
+	float wait;
 };
 
 #endif

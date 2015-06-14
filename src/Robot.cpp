@@ -93,8 +93,8 @@ void Robot::RobotInit() {
 	pidLift = new PIDLift();
 	deployAligner = new DeployAligner();
 	retractAligner = new RetractAligner();
-	rotateWingsForward = new RotateWings(.2,.5);
-	rotateWingsBackward = new RotateWings(-.2,.5);
+	rotateWingsForward = new RotateWings(.2,.5,0);
+	rotateWingsBackward = new RotateWings(-.2,.5,0);
 	driverStick = new Joystick(0);
 	techStick = new Joystick(1);
 	raiseLift = new RunLift(0.5);
@@ -122,7 +122,7 @@ void Robot::RobotInit() {
 	SmartDashboard::PutNumber("RotateTestSpeed", 0.5);
 	startDiagnosticLogging();
 	SetupRobot();
-	modRotateWing = new RotateWings(-.8,.25);
+	modRotateWing = new RotateWings(-.8,.25,0);
 }
 void Robot::SetupRobot() {
 	deployToggle = -1;

@@ -44,7 +44,7 @@ void GatherCans::auton0(){
 	AddSequential(new DriveForward(6,0.25));
 
 	AddParallel(new DriveForward(2,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
-	AddSequential(new RotateWings(0.25,2));
+	AddSequential(new RotateWings(0.25,2,0));
 
 	//	AddSequential(new AutonJerky());
 //	AddParallel(new RotateWings(0.4,6));
@@ -56,11 +56,10 @@ void GatherCans::auton1(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
 //	AddSequential(new DriveForward(.2,1));
-	AddParallel(new RotateWings(-0.5,1));
+//	AddParallel(new RotateWings(-0.5,1,0));
 	AddSequential(new DriveForward(autonTimeout,autonForwardSpeed));
-
-	AddParallel(new DriveForward(autonRotateTime,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
-	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime));
+//	AddParallel(new DriveForward(autonRotateTime,.3)); //keep "aligned" with the step while grabbing the cans.  Cancelled when AutonJerky is run
+	AddSequential(new RotateWings(autonRotateSpeed,autonRotateTime,0));
 
 //	AddParallel(new RotateWings(.3,4));
 //	AddSequential(new AutonJerky());
@@ -72,10 +71,9 @@ void GatherCans::auton2(){
 	Robot::eagleWings->wingRotater->Set(0);
 	AddParallel(new ResetLift());
 	AddSequential(new DriveForward(0.4,1));
-	AddParallel(new RotateWings(-.6,.15)); //clap on top of cans to thwart burglars...
-	AddSequential(new DriveForward(.5,0.25));
-	AddSequential(new AutonJerky()); //being used for waiting at the step.  Waits for 4.5 seconds, needs to be random 4 to 7 eventually.
-	AddSequential(new RotateWings(0.25,2));
+	AddParallel(new RotateWings(-.7,.15,0)); //clap on top of cans to thwart burglars...
+	AddSequential(new DriveForward(.6,0.25));
+	AddSequential(new RotateWings(0.25,2,10));
 	AddSequential(new BackupToAutonZone());
 }
 void GatherCans::auton3(){
@@ -87,7 +85,7 @@ void GatherCans::auton4(){
 	AddParallel(new ResetLift());
 	AddSequential(new DriveForward(4.5,0.30));
 //	AddSequential(new AlignWithStep());
-	AddSequential(new RotateWings(0.2,2));
+//	AddSequential(new RotateWings(0.2,2));
 	AddSequential(new AutonJerky());
 	AddSequential(new BackupToAutonZone());
 }
@@ -96,7 +94,7 @@ void GatherCans::auton5(){
 	AddParallel(new ResetLift());
 	AddSequential(new DriveForward(4,0.35));
 //	AddSequential(new AlignWithStep());
-	AddSequential(new RotateWings(0.2,2));
+//	AddSequential(new RotateWings(0.2,2));
 	AddSequential(new AutonJerky());
 	AddSequential(new BackupToAutonZone());
 }
