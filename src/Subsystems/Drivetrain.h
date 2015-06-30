@@ -37,6 +37,7 @@ public:
 	void InitDefaultCommand();
 	void DriveTeleop(double x, double y, double r);
 	void toggleFastMode();
+	void TankDrive(Joystick* x);
 	double xScalar;
 	double yScalar;
 	double rotationScalar;

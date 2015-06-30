@@ -70,7 +70,10 @@ void Drivetrain::DriveOnHeading(double velocity, double correctionConstant) {
 void Drivetrain::toggleFastMode() {
 	fastMode = !fastMode;
 }
+void Drivetrain::TankDrive(Joystick* x){
+	RobotMap::drivetrainrobotDrive->ArcadeDrive(x);
 
+}
 void Drivetrain::DriveTeleop(double x, double y, double r) {
 	if(quadraticScaling) {
 		x = x*fabs(x);
