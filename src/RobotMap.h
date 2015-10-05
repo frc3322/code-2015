@@ -50,6 +50,7 @@ public:
 	static PIDController* liftPidController;
 	static DigitalInput* liftDetectorator1;
 	static DigitalInput* liftDetectorator2;
+//	static AnalogInput* gyroTemp;
 
 	static void init();
 };

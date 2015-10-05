@@ -34,7 +34,7 @@ GatherCans::GatherCans(int autonNumber, double autonForwardSpeed, double autonJe
 			auton5();
 			break;
 		default:
-			auton0();
+			auton1();
 			break;
 	}
 }
@@ -48,7 +48,7 @@ void GatherCans::auton0(){
 
 	//	AddSequential(new AutonJerky());
 //	AddParallel(new RotateWings(0.4,6));
-	AddSequential(new BackupToAutonZone());
+	//AddSequential(new BackupToAutonZone());
 //	AddSequential(new RotateWings(-.2,.4));
 }
 
@@ -64,7 +64,7 @@ void GatherCans::auton1(){
 //	AddParallel(new RotateWings(.3,4));
 //	AddSequential(new AutonJerky());
 
-	AddSequential(new BackupToAutonZone());
+	//AddSequential(new BackupToAutonZone());
 }
 void GatherCans::auton2(){
 	//super secret auton

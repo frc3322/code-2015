@@ -46,6 +46,7 @@ void Robot::logRow() {
 	//	printf("Acc x: %f Acc y: %f", stepDetectorator->accelerometer->GetX(), stepDetectorator->accelerometer->GetY());
 		DashboardPrintf("Acc x:","%f",stepDetectorator->accelerometer->GetX());
 		DashboardPrintf("Gyro Value:","%f",drivetrain->driveGyro->GetAngle());
+//		DashboardPrintf("Gyro Temp voltage: ", "%f", drivetrain->gyroTemp->GetVoltage());
 	SmartDashboard::PutNumber("encoderValue", Robot::lift->encoder->Get());
 
 }
@@ -123,6 +124,7 @@ void Robot::RobotInit() {
 	startDiagnosticLogging();
 	SetupRobot();
 	modRotateWing = new RotateWings(-.8,.25,0);
+
 }
 void Robot::SetupRobot() {
 	deployToggle = -1;
@@ -137,6 +139,7 @@ void Robot::DisabledInit(){
 	SmartDashboard::PutBoolean("resetGyro", false);
 	SmartDashboard::PutBoolean("autonUseGyro",true);
 	SmartDashboard::PutBoolean("In High Gear", Robot::lift->gearboxShifter->Get() == DoubleSolenoid::kForward);
+//	Robot::drivetrain->driveGyro->InitGyro();
 	flushToDisk();
 }
 void Robot::DisabledPeriodic() {
@@ -362,6 +365,12 @@ void Robot::TeleopPeriodic() {
 	else if(techStick->GetRawButton(XBOX::LBUMPER)){
 		retractAligner->Start();
 	}
+//	if(techStick->GetRawButton(XBOX::RSTICKP)){
+//		test = test*-1;
+//	}
+//	if(test==-1){
+//		Robot::drivetrain->DriveOnHeading(-.5,.8);
+//	}
 
 }
 void Robot::TestPeriodic() {

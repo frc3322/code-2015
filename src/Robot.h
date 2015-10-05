@@ -130,6 +130,7 @@ public:
 	uint8_t lightPattern[1];
 	double teleopStartTime;
 	double timeLeftInMatch;
+	int test = 0;
 
 };
 #endif
