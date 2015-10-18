@@ -83,7 +83,7 @@ Lift::Lift(Command* resetLift) :
 	pidController = RobotMap::liftPidController;
 	liftDetectorator1 = RobotMap::liftDetectorator1;
 	liftDetectorator2 = RobotMap::liftDetectorator2;
-	encoder->SetPIDSourceParameter(Encoder::PIDSource::kDistance);
+	//encoder->SetPIDSourceParameter(Encoder::PIDSource::kDistance);
 	pidController->SetPID(p, i, d);
 	pidController->SetTolerance(5);
 	lastLiftShiftTime = 0.0;

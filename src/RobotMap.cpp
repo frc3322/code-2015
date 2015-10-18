@@ -84,7 +84,7 @@ void RobotMap::init() {
 		liftencoder->SetSamplesToAverage(1);
 	lw->AddSensor("Lift", "encoder", liftencoder);
 	liftencoder->SetDistancePerPulse(1.0);
-        liftencoder->SetPIDSourceParameter(Encoder::kRate);
+   //     liftencoder->SetPIDSourceParameter(Encoder::kRate);
 	liftlimitSwitch = new DigitalInput(4);
 	lw->AddSensor("Lift", "limitSwitch", liftlimitSwitch);
 	
@@ -116,7 +116,7 @@ void RobotMap::init() {
 	alignerSpinner = new Talon(9);
 	lw->AddActuator("Aligner", "Spinner", (Talon*) alignerSpinner);
 
-	liftencoder->SetPIDSourceParameter(Encoder::PIDSourceParameter::kDistance);
+//	liftencoder->SetPIDSourceParameter(Encoder::PIDSourceParameter::kDistance);
 	liftPidController = new PIDController(0.01, 0.00005, 0.0001, liftencoder, liftSpeedController1);
 	lw->AddActuator("Lift", "pidController", liftPidController);
 	liftDetectorator1 = new DigitalInput(6);

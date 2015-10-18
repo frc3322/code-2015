@@ -144,7 +144,7 @@ void Robot::DisabledInit(){
 }
 void Robot::DisabledPeriodic() {
 	Scheduler::GetInstance()->Run();
-	if(SmartDashboard::GetBoolean("resetGyro")){
+	if(SmartDashboard::GetBoolean("resetGyro",false)){
 		Robot::drivetrain->driveGyro->InitGyro();
 		SmartDashboard::PutBoolean("resetGyro", false);
 	}
@@ -154,14 +154,14 @@ void Robot::DisabledPeriodic() {
 	logRow();
 }
 void Robot::AutonomousInit() {
-	int autonNumber = SmartDashboard::GetNumber("autonNumber");
-	double autonForwardSpeed = SmartDashboard::GetNumber("autonForwardSpeed");
-	double autonJerkSpeed = SmartDashboard::GetNumber("autonJerkSpeed");
-	double autonTimeout = SmartDashboard::GetNumber("autonTimeout");
-	double autonDriveBackSpeed = SmartDashboard::GetNumber("autonDriveBackSpeed");
-	double autonRotateTime = SmartDashboard::GetNumber("autonRotateTime");
-	double autonRotateSpeed = SmartDashboard::GetNumber("autonRotateSpeed");
-	double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime");
+	int autonNumber = SmartDashboard::GetNumber("autonNumber",0);
+	double autonForwardSpeed = SmartDashboard::GetNumber("autonForwardSpeed",0);
+	double autonJerkSpeed = SmartDashboard::GetNumber("autonJerkSpeed",0);
+	double autonTimeout = SmartDashboard::GetNumber("autonTimeout",0);
+	double autonDriveBackSpeed = SmartDashboard::GetNumber("autonDriveBackSpeed",0);
+	double autonRotateTime = SmartDashboard::GetNumber("autonRotateTime",0);
+	double autonRotateSpeed = SmartDashboard::GetNumber("autonRotateSpeed",0);
+	double autonDriveBackTime = SmartDashboard::GetNumber("autonDriveBackTime",0);
 	autonomousCommand = new GatherCans(autonNumber,  autonForwardSpeed,  autonJerkSpeed,  autonTimeout,  autonDriveBackSpeed,  autonRotateTime,  autonRotateSpeed,  autonDriveBackTime);
 	autonomousCommand->Start();
 }
@@ -183,8 +183,8 @@ void Robot::TeleopInit() {
 	Robot::lift->gearboxShifter->Set(DoubleSolenoid::kReverse);
 	timeLeftInMatch = 135 - ( Timer::GetFPGATimestamp() - teleopStartTime);
 	SmartDashboard::PutNumber("Match Time Left",(int)(timeLeftInMatch));
-	modRotateWing->direction = SmartDashboard::GetNumber("RotateTestSpeed");
-	modRotateWing->time = SmartDashboard::GetNumber("RotateTestTime");
+	modRotateWing->direction = SmartDashboard::GetNumber("RotateTestSpeed",0);
+	modRotateWing->time = SmartDashboard::GetNumber("RotateTestTime",0);
 }
 bool Robot::isNewPress(double time1, double time2) {
 	return fabs(time1-time2) > .25;

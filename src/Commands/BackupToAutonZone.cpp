@@ -11,11 +11,11 @@ BackupToAutonZone::BackupToAutonZone() {
 }
 void BackupToAutonZone::Initialize() {
 	Robot::drivetrain->ResetHeading();
-	duration = SmartDashboard::GetNumber("backupTime");
+	duration = SmartDashboard::GetNumber("backupTime",0);
 	startTime = Timer::GetFPGATimestamp();
 }
 void BackupToAutonZone::Execute() {
-	Robot::drivetrain->DriveOnHeading(.45, fabs(SmartDashboard::GetNumber("BackupCorrectionConstant")));
+	Robot::drivetrain->DriveOnHeading(.45, fabs(SmartDashboard::GetNumber("BackupCorrectionConstant",0)));
 }
 bool BackupToAutonZone::IsFinished() {
 	return Timer::GetFPGATimestamp() > startTime + duration;
