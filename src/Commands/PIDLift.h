@@ -30,6 +30,9 @@ public:
 	virtual void End();
 	virtual void Interrupted();
 	PIDController * liftPIDController;
+	float p;
+	float i;
+	float d;
 };
 
 #endif
