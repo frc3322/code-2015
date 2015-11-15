@@ -15,7 +15,8 @@ void BackupToAutonZone::Initialize() {
 	startTime = Timer::GetFPGATimestamp();
 }
 void BackupToAutonZone::Execute() {
-	Robot::drivetrain->DriveOnHeading(.45, fabs(SmartDashboard::GetNumber("BackupCorrectionConstant",0)));
+	double angle = .18;
+	Robot::drivetrain->DriveOnHeading(.45, angle);
 }
 bool BackupToAutonZone::IsFinished() {
 	return Timer::GetFPGATimestamp() > startTime + duration;

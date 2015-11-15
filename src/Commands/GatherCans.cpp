@@ -64,17 +64,21 @@ void GatherCans::auton1(){
 //	AddParallel(new RotateWings(.3,4));
 //	AddSequential(new AutonJerky());
 
-	//AddSequential(new BackupToAutonZone());
+	AddSequential(new BackupToAutonZone());
 }
 void GatherCans::auton2(){
 	//super secret auton
-	Robot::eagleWings->wingRotater->Set(0);
-	AddParallel(new ResetLift());
-	AddSequential(new DriveForward(0.4,1));
-	AddParallel(new RotateWings(-.7,.15,0)); //clap on top of cans to thwart burglars...
-	AddSequential(new DriveForward(.6,0.25));
-	AddSequential(new RotateWings(0.25,2,10));
+//	Robot::eagleWings->wingRotater->Set(0);
+//	AddParallel(new ResetLift());
+//	AddSequential(new DriveForward(0.4,1));
+//	AddParallel(new RotateWings(-.7,.15,0)); //clap on top of cans to thwart burglars...
+//	AddSequential(new DriveForward(.6,0.25));
+//	AddSequential(new RotateWings(0.25,2,10));
+//	AddSequential(new BackupToAutonZone());
+
 	AddSequential(new BackupToAutonZone());
+
+
 }
 void GatherCans::auton3(){
 	AddParallel(new ResetLift());

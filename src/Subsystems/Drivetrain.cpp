@@ -59,12 +59,8 @@ double Drivetrain::CorrectionAngle(double correctionConstant) {
 	return 0;
 
 }
-void Drivetrain::DriveOnHeading(double velocity, double correctionConstant) {
-			//correct more for a greater angle going backward, less for a smaller angle.  NEEDS TEST
-		if(velocity>0){
-			correctionConstant = correctionConstant * correctionConstant;
-		}
-		RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0,CorrectionAngle(correctionConstant));
+void Drivetrain::DriveOnHeading(double velocity, double angle) {
+		RobotMap::drivetrainrobotDrive->MecanumDrive_Polar(velocity,0, angle);
 	}
 void Drivetrain::toggleFastMode() {
 	fastMode = !fastMode;
